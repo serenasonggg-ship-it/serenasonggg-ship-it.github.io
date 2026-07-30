@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Serena Song's practical framework for evaluating large language models, engineered capabilities, and real-world AI applications. 模型评测：从模型能力到真实应用的系统化闭环。">
   <meta name="theme-color" content="#841240">
-  <title>模型评测 · A Practical Framework for LLM Evaluation | 宋月 Serena Song</title>
+  <title data-zh="模型评测：从模型能力到真实应用的系统化闭环 · 宋月" data-en="A Practical Framework for LLM Evaluation | Serena Song 宋月">模型评测 · A Practical Framework for LLM Evaluation | 宋月 Serena Song</title>
+  <script>try{document.documentElement.dataset.lang=(new URLSearchParams(location.search).get("lang")||localStorage.getItem("site-lang")||((navigator.language||"en").toLowerCase().indexOf("zh")===0?"zh":"en"))}catch(e){document.documentElement.dataset.lang="en"}</script>
   <style>
     :root {
       color-scheme: light;
@@ -33,6 +34,27 @@
     ::-webkit-scrollbar-thumb { background: var(--ink); border: 2px solid var(--paper); }
     a { color: inherit; }
     a:focus-visible { outline: 2px dashed var(--ink); outline-offset: 3px; }
+
+    /* i18n */
+    html[data-lang="zh"] .i18n-en { display: none !important; }
+    html[data-lang="en"] .i18n-zh { display: none !important; }
+
+    .lang-toggle {
+      position: fixed; right: 18px; bottom: 18px; z-index: 60;
+      display: flex; padding: 0;
+      background: var(--paper);
+      border: 2px solid var(--ink);
+      box-shadow: 3px 3px 0 var(--ink);
+      font: 800 12px/1 var(--mono); letter-spacing: .06em;
+      cursor: pointer;
+      transform: rotate(-1.5deg);
+      transition: transform .15s ease;
+    }
+    .lang-toggle:hover { transform: rotate(0); }
+    .lang-toggle .opt { padding: 10px 13px; color: var(--ink); }
+    .lang-toggle .opt + .opt { border-left: 2px solid var(--ink); }
+    html[data-lang="zh"] .lang-toggle .opt-zh,
+    html[data-lang="en"] .lang-toggle .opt-en { background: var(--ink); color: var(--paper); }
 
     .grain {
       position: fixed; inset: 0; z-index: 40;
@@ -92,6 +114,7 @@
       max-width: 940px; margin: 0;
       font: 500 clamp(42px, 6.4vw, 76px)/1.04 var(--serif); letter-spacing: -.03em;
     }
+    h1.i18n-zh { letter-spacing: .01em; }
     .cn-title {
       display: block; margin-top: 16px;
       color: var(--ink);
@@ -219,9 +242,8 @@
     .metric p { margin: 0; font-size: 13px; line-height: 1.75; opacity: .82; }
 
     .takeaway-grid .card { min-height: 180px; }
-    .takeaway-grid .card .label { font-size: 15px; letter-spacing: .1em; }
+    .takeaway-grid .card .label { color: transparent; -webkit-text-stroke: .8px var(--ink); font: 800 26px/1 var(--mono); letter-spacing: .1em; }
     .takeaway-grid .card .label::before { content: ""; }
-    .takeaway-grid .card .label { color: transparent; -webkit-text-stroke: .8px var(--ink); font: 800 26px/1 var(--mono); }
 
     .source-note {
       margin-top: 44px; padding-top: 20px;
@@ -258,13 +280,17 @@
       .ticker-track { animation: none; }
     }
     @media print {
-      .grain, .ticker { display: none; }
+      .grain, .ticker, .lang-toggle { display: none; }
       section, .card, .architecture-card { break-inside: avoid; }
     }
   </style>
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
+
+  <button class="lang-toggle" type="button" aria-label="Switch language 切换语言">
+    <span class="opt opt-zh">中</span><span class="opt opt-en">EN</span>
+  </button>
 
   <div class="ticker" aria-hidden="true">
     <div class="ticker-track">
@@ -275,68 +301,88 @@
 
   <nav aria-label="Article navigation">
     <a class="wordmark" href="index.html">宋月 Serena Song</a>
-    <a class="stamp-btn" href="index.html#writing">← Back 返回首页</a>
+    <a class="stamp-btn" href="index.html#writing"><span class="i18n-zh">← 返回首页</span><span class="i18n-en">← Back to homepage</span></a>
   </nav>
 
   <header>
-    <p class="eyebrow">Selected Writing · LLM Evaluation · 精选写作</p>
-    <h1>A Practical Framework for LLM Evaluation<span class="cn-title" lang="zh-CN">模型评测：从模型能力到真实应用的系统化闭环</span></h1>
-    <p class="dek">A concise, product-oriented framework for deciding what to evaluate, how to evaluate it, and when an AI system is ready for real users.</p>
-    <div class="byline"><span>By Serena Song 宋月</span><span>Original article in Chinese</span><span>July 2026</span></div>
-    <div class="thesis">A useful evaluation system is not a leaderboard. It is a continuous loop from goals and definitions to methods, evidence, release decisions, and reusable organizational knowledge.</div>
+    <p class="eyebrow"><span class="i18n-zh">精选写作 · LLM 评测</span><span class="i18n-en">Selected Writing · LLM Evaluation</span></p>
+    <h1 class="i18n-en">A Practical Framework for LLM Evaluation<span class="cn-title" lang="zh-CN">模型评测：从模型能力到真实应用的系统化闭环</span></h1>
+    <h1 class="i18n-zh" lang="zh-CN">模型评测：从模型能力到真实应用的系统化闭环<span class="cn-title">A Practical Framework for LLM Evaluation</span></h1>
+    <p class="dek i18n-en">A concise, product-oriented framework for deciding what to evaluate, how to evaluate it, and when an AI system is ready for real users.</p>
+    <p class="dek i18n-zh">一个简洁、面向产品的框架：决定评测什么、如何评测，以及 AI 系统何时可以面对真实用户。</p>
+    <div class="byline">
+      <span><span class="i18n-zh">作者：宋月</span><span class="i18n-en">By Serena Song 宋月</span></span>
+      <span><span class="i18n-zh">原文为中文</span><span class="i18n-en">Original article in Chinese</span></span>
+      <span><span class="i18n-zh">2026 年 7 月</span><span class="i18n-en">July 2026</span></span>
+    </div>
+    <div class="thesis i18n-en">A useful evaluation system is not a leaderboard. It is a continuous loop from goals and definitions to methods, evidence, release decisions, and reusable organizational knowledge.</div>
+    <div class="thesis i18n-zh">好用的评测体系不是排行榜，而是一个从目标与定义出发，贯穿方法、证据、发布决策，并沉淀为可复用组织知识的持续闭环。</div>
   </header>
 
   <main>
     <section id="scope">
-      <div class="section-head"><span class="section-no" aria-hidden="true">01</span><h2>Three levels of evaluation</h2></div>
-      <div class="prose"><p>Evaluation should follow AI capability from its raw foundation to its final product form. Each level asks a different question, requires different evidence, and supports a different decision.</p></div>
+      <div class="section-head"><span class="section-no" aria-hidden="true">01</span><h2><span class="i18n-zh">评测的三个层次</span><span class="i18n-en">Three levels of evaluation</span></h2></div>
+      <div class="prose">
+        <p class="i18n-en">Evaluation should follow AI capability from its raw foundation to its final product form. Each level asks a different question, requires different evidence, and supports a different decision.</p>
+        <p class="i18n-zh">评测应跟随 AI 能力从底层基座走向最终产品形态。每个层次回答不同的问题，需要不同的证据，支撑不同的决策。</p>
+      </div>
       <div class="layers">
-        <div class="layer"><span class="layer-no">01</span><strong>Model architecture</strong><p><b>Can the AI do it?</b> Measure raw intelligence: knowledge, reasoning, language, long-context recall, hallucination, and safety before tools or task-specific optimization.</p></div>
-        <div class="layer"><span class="layer-no">02</span><strong>Capability engineering</strong><p><b>Can intelligence become a stable function?</b> Evaluate task performance, RAG retrieval, tool use, robustness, latency, and failure handling.</p></div>
-        <div class="layer"><span class="layer-no">03</span><strong>Application &amp; scenario</strong><p><b>Does it create user and business value?</b> Evaluate task completion, usability, satisfaction, retention, cost per task, and actual workflow outcomes.</p></div>
+        <div class="layer"><span class="layer-no">01</span><strong><span class="i18n-zh">模型架构</span><span class="i18n-en">Model architecture</span></strong><p class="i18n-en"><b>Can the AI do it?</b> Measure raw intelligence: knowledge, reasoning, language, long-context recall, hallucination, and safety before tools or task-specific optimization.</p><p class="i18n-zh"><b>它能做到吗？</b>在引入工具与任务优化之前，衡量原生智能：知识、推理、语言、长上下文记忆、幻觉与安全性。</p></div>
+        <div class="layer"><span class="layer-no">02</span><strong><span class="i18n-zh">能力工程</span><span class="i18n-en">Capability engineering</span></strong><p class="i18n-en"><b>Can intelligence become a stable function?</b> Evaluate task performance, RAG retrieval, tool use, robustness, latency, and failure handling.</p><p class="i18n-zh"><b>智能能否成为稳定的功能？</b>评测任务表现、RAG 检索、工具调用、鲁棒性、延迟与失败处理。</p></div>
+        <div class="layer"><span class="layer-no">03</span><strong><span class="i18n-zh">应用与场景</span><span class="i18n-en">Application &amp; scenario</span></strong><p class="i18n-en"><b>Does it create user and business value?</b> Evaluate task completion, usability, satisfaction, retention, cost per task, and actual workflow outcomes.</p><p class="i18n-zh"><b>它是否创造用户与业务价值？</b>评测任务完成率、易用性、满意度、留存、单任务成本与真实工作流结果。</p></div>
       </div>
     </section>
 
     <section id="workflow">
-      <div class="section-head"><span class="section-no" aria-hidden="true">02</span><h2>The evaluation workflow</h2></div>
-      <div class="prose"><p>A complex, open-ended question becomes actionable when it is decomposed into three decisions: what matters, how evidence will be produced, and what threshold counts as success.</p></div>
+      <div class="section-head"><span class="section-no" aria-hidden="true">02</span><h2><span class="i18n-zh">评测工作流</span><span class="i18n-en">The evaluation workflow</span></h2></div>
+      <div class="prose">
+        <p class="i18n-en">A complex, open-ended question becomes actionable when it is decomposed into three decisions: what matters, how evidence will be produced, and what threshold counts as success.</p>
+        <p class="i18n-zh">一个复杂开放的问题，拆解为三个决策后即可落地：评什么、证据如何产生、什么阈值算成功。</p>
+      </div>
       <div class="question-grid">
-        <article class="card"><span class="label">What to evaluate</span><h3>Dimensions &amp; modes</h3><p>Define the target capability, evaluation scope, task setting, and whether the goal is professional benchmarking, comparison, or practical acceptance.</p></article>
-        <article class="card"><span class="label">How to evaluate</span><h3>Methods &amp; data</h3><p>Combine objective automation, human review, and LLM-based judging with public benchmarks, custom test sets, or third-party data.</p></article>
-        <article class="card"><span class="label">How good is enough</span><h3>Metrics &amp; baselines</h3><p>Choose measurable criteria and compare against human performance, industry state of the art, or explicit product release requirements.</p></article>
+        <article class="card"><span class="label"><span class="i18n-zh">评什么</span><span class="i18n-en">What to evaluate</span></span><h3><span class="i18n-zh">维度与模式</span><span class="i18n-en">Dimensions &amp; modes</span></h3><p class="i18n-en">Define the target capability, evaluation scope, task setting, and whether the goal is professional benchmarking, comparison, or practical acceptance.</p><p class="i18n-zh">定义目标能力、评测范围、任务设定，以及目标是专业基准测试、横向对比还是实用验收。</p></article>
+        <article class="card"><span class="label"><span class="i18n-zh">怎么评</span><span class="i18n-en">How to evaluate</span></span><h3><span class="i18n-zh">方法与数据</span><span class="i18n-en">Methods &amp; data</span></h3><p class="i18n-en">Combine objective automation, human review, and LLM-based judging with public benchmarks, custom test sets, or third-party data.</p><p class="i18n-zh">结合客观自动化、人工评审与 LLM 裁判，搭配公开基准、自建测试集或第三方数据。</p></article>
+        <article class="card"><span class="label"><span class="i18n-zh">多好算够</span><span class="i18n-en">How good is enough</span></span><h3><span class="i18n-zh">指标与基线</span><span class="i18n-en">Metrics &amp; baselines</span></h3><p class="i18n-en">Choose measurable criteria and compare against human performance, industry state of the art, or explicit product release requirements.</p><p class="i18n-zh">选择可度量的标准，并对标人类表现、行业最先进水平或明确的产品发布要求。</p></article>
       </div>
     </section>
 
     <section id="modes">
-      <div class="section-head"><span class="section-no" aria-hidden="true">03</span><h2>Match the mode to the lifecycle</h2></div>
-      <div class="prose"><p>The article distinguishes three complementary evaluation modes. Their importance changes as a model moves from research to productization and delivery.</p></div>
+      <div class="section-head"><span class="section-no" aria-hidden="true">03</span><h2><span class="i18n-zh">让评测模式匹配生命周期</span><span class="i18n-en">Match the mode to the lifecycle</span></h2></div>
+      <div class="prose">
+        <p class="i18n-en">The article distinguishes three complementary evaluation modes. Their importance changes as a model moves from research to productization and delivery.</p>
+        <p class="i18n-zh">文章区分了三种互补的评测模式。随着模型从研究走向产品化与交付，它们各自的权重也会发生变化。</p>
+      </div>
       <div class="mode-table" role="table" aria-label="Evaluation modes">
-        <div class="mode-row head" role="row"><div>Mode</div><div>Primary question</div><div>Best used for</div></div>
-        <div class="mode-row" role="row"><div>Professional</div><div>Does the model meet a standardized capability baseline?</div><div>Research, capability analysis, pre-iteration checks</div></div>
-        <div class="mode-row" role="row"><div>Comparative</div><div>Where does a model or version outperform or underperform alternatives?</div><div>Model selection, competitive analysis, product positioning</div></div>
-        <div class="mode-row" role="row"><div>Practical</div><div>Is the system useful, stable, safe, and understandable in a real workflow?</div><div>Pre-launch acceptance and continuous product improvement</div></div>
+        <div class="mode-row head" role="row"><div><span class="i18n-zh">模式</span><span class="i18n-en">Mode</span></div><div><span class="i18n-zh">核心问题</span><span class="i18n-en">Primary question</span></div><div><span class="i18n-zh">最佳用途</span><span class="i18n-en">Best used for</span></div></div>
+        <div class="mode-row" role="row"><div><span class="i18n-zh">专业级</span><span class="i18n-en">Professional</span></div><div><span class="i18n-zh">模型是否达到标准化能力基线？</span><span class="i18n-en">Does the model meet a standardized capability baseline?</span></div><div><span class="i18n-zh">研究、能力分析、迭代前检查</span><span class="i18n-en">Research, capability analysis, pre-iteration checks</span></div></div>
+        <div class="mode-row" role="row"><div><span class="i18n-zh">对比级</span><span class="i18n-en">Comparative</span></div><div><span class="i18n-zh">某模型或版本在何处优于或劣于备选？</span><span class="i18n-en">Where does a model or version outperform or underperform alternatives?</span></div><div><span class="i18n-zh">模型选型、竞品分析、产品定位</span><span class="i18n-en">Model selection, competitive analysis, product positioning</span></div></div>
+        <div class="mode-row" role="row"><div><span class="i18n-zh">实用级</span><span class="i18n-en">Practical</span></div><div><span class="i18n-zh">系统在真实工作流中是否有用、稳定、安全、可理解？</span><span class="i18n-en">Is the system useful, stable, safe, and understandable in a real workflow?</span></div><div><span class="i18n-zh">上线前验收与持续产品改进</span><span class="i18n-en">Pre-launch acceptance and continuous product improvement</span></div></div>
       </div>
     </section>
 
     <section id="methods">
-      <div class="section-head"><span class="section-no" aria-hidden="true">04</span><h2>Use multiple evaluation methods</h2></div>
+      <div class="section-head"><span class="section-no" aria-hidden="true">04</span><h2><span class="i18n-zh">组合多种评测方法</span><span class="i18n-en">Use multiple evaluation methods</span></h2></div>
       <div class="method-grid">
-        <article class="card"><span class="label">Objective</span><h3>Automated metrics</h3><p>Compare outputs with reference answers using deterministic rules or metrics such as accuracy, F1, BLEU, and ROUGE. Best for structured tasks with clear ground truth.</p></article>
-        <article class="card"><span class="label">Subjective</span><h3>Human evaluation</h3><p>Experts judge fluency, logic, relevance, consistency, and user experience. This remains essential for open generation and domain-sensitive quality.</p></article>
-        <article class="card"><span class="label">Scalable</span><h3>LLM-as-a-Judge</h3><p>A stronger or specialized model scores outputs against explicit rubrics. Reliability improves through examples, structured output, repeated judging, voting, and human calibration.</p></article>
+        <article class="card"><span class="label"><span class="i18n-zh">客观</span><span class="i18n-en">Objective</span></span><h3><span class="i18n-zh">自动化指标</span><span class="i18n-en">Automated metrics</span></h3><p class="i18n-en">Compare outputs with reference answers using deterministic rules or metrics such as accuracy, F1, BLEU, and ROUGE. Best for structured tasks with clear ground truth.</p><p class="i18n-zh">用确定性规则或准确率、F1、BLEU、ROUGE 等指标，将输出与参考答案对比。最适合有明确标准答案的结构化任务。</p></article>
+        <article class="card"><span class="label"><span class="i18n-zh">主观</span><span class="i18n-en">Subjective</span></span><h3><span class="i18n-zh">人工评测</span><span class="i18n-en">Human evaluation</span></h3><p class="i18n-en">Experts judge fluency, logic, relevance, consistency, and user experience. This remains essential for open generation and domain-sensitive quality.</p><p class="i18n-zh">由专家判断流畅度、逻辑、相关性、一致性与用户体验。对开放式生成与领域敏感的质量判断仍然不可或缺。</p></article>
+        <article class="card"><span class="label"><span class="i18n-zh">可扩展</span><span class="i18n-en">Scalable</span></span><h3><span class="i18n-zh">LLM 裁判</span><span class="i18n-en">LLM-as-a-Judge</span></h3><p class="i18n-en">A stronger or specialized model scores outputs against explicit rubrics. Reliability improves through examples, structured output, repeated judging, voting, and human calibration.</p><p class="i18n-zh">用更强或专门的模型按明确的评分规则打分。通过示例、结构化输出、多次评判、投票与人工校准提升可靠性。</p></article>
       </div>
-      <div class="alignment"><strong>Important limitation:</strong> LLM judges can exhibit length, position, and style bias. A robust system combines model judging with human expert review instead of treating automated scores as ground truth.</div>
+      <div class="alignment i18n-en"><strong>Important limitation:</strong> LLM judges can exhibit length, position, and style bias. A robust system combines model judging with human expert review instead of treating automated scores as ground truth.</div>
+      <div class="alignment i18n-zh"><strong>重要局限：</strong>LLM 裁判可能存在长度、位置与风格偏差。稳健的做法是将模型评判与人工专家评审结合，而不是把自动分数当作标准答案。</div>
     </section>
 
     <section id="automation">
-      <div class="section-head"><span class="section-no" aria-hidden="true">05</span><h2>Evaluator + aggregator</h2></div>
-      <div class="prose"><p>The article's most product-relevant contribution is a two-part automated architecture. Individual evaluators produce evidence; an aggregator turns that evidence into a decision that can be checked against people and real behavior.</p></div>
-      <div class="architecture">
-        <article class="architecture-card"><h3>Evaluators</h3><p>Score each quality dimension and explain the score.</p><ul><li>Prompt + LLM for flexible rubrics</li><li>Fine-tuned judges for stable, specialized standards</li><li>Rule systems for precise quantitative checks</li><li>Test system prompt, model, and tools as a combined environment</li></ul></article>
-        <div class="arrow" aria-hidden="true">→</div>
-        <article class="architecture-card"><h3>Aggregator</h3><p>Map many automated signals to a smaller set of trusted release indicators.</p><ul><li>Align machine scores with human labels</li><li>Fit category-specific weights or data-driven models</li><li>Support Good / Same / Bad and release decisions</li><li>Recalibrate as products and users change</li></ul></article>
+      <div class="section-head"><span class="section-no" aria-hidden="true">05</span><h2><span class="i18n-zh">评估器 + 聚合器</span><span class="i18n-en">Evaluator + aggregator</span></h2></div>
+      <div class="prose">
+        <p class="i18n-en">The article's most product-relevant contribution is a two-part automated architecture. Individual evaluators produce evidence; an aggregator turns that evidence into a decision that can be checked against people and real behavior.</p>
+        <p class="i18n-zh">文章对产品最有价值的贡献是一个两段式自动化架构：单个评估器产出证据，聚合器把证据转化为可与人工及真实行为对照的决策。</p>
       </div>
-      <div class="alignment">
+      <div class="architecture">
+        <article class="architecture-card"><h3><span class="i18n-zh">评估器</span><span class="i18n-en">Evaluators</span></h3><p><span class="i18n-zh">对每个质量维度打分并解释分数。</span><span class="i18n-en">Score each quality dimension and explain the score.</span></p><ul class="i18n-zh"><li>Prompt + LLM：灵活的评分规则</li><li>微调裁判：稳定的专业标准</li><li>规则系统：精确的量化检查</li><li>将系统提示词、模型与工具作为组合环境整体测试</li></ul><ul class="i18n-en"><li>Prompt + LLM for flexible rubrics</li><li>Fine-tuned judges for stable, specialized standards</li><li>Rule systems for precise quantitative checks</li><li>Test system prompt, model, and tools as a combined environment</li></ul></article>
+        <div class="arrow" aria-hidden="true">→</div>
+        <article class="architecture-card"><h3><span class="i18n-zh">聚合器</span><span class="i18n-en">Aggregator</span></h3><p><span class="i18n-zh">把大量自动信号映射到少数可信的发布指标。</span><span class="i18n-en">Map many automated signals to a smaller set of trusted release indicators.</span></p><ul class="i18n-zh"><li>让机器分数与人工标注对齐</li><li>拟合按品类划分的权重或数据驱动模型</li><li>支持 Good / Same / Bad 与发布决策</li><li>随产品与用户变化重新校准</li></ul><ul class="i18n-en"><li>Align machine scores with human labels</li><li>Fit category-specific weights or data-driven models</li><li>Support Good / Same / Bad and release decisions</li><li>Recalibrate as products and users change</li></ul></article>
+      </div>
+      <div class="alignment i18n-en">
         <strong>The alignment loop</strong>
         <ol>
           <li>Calculate Pearson or Spearman correlation between machine metrics and human evaluation.</li>
@@ -345,36 +391,51 @@
           <li>Monitor correlation over time and replace evaluators when alignment declines.</li>
         </ol>
       </div>
+      <div class="alignment i18n-zh">
+        <strong>对齐回路</strong>
+        <ol>
+          <li>计算机指标与人工评测之间的 Pearson 或 Spearman 相关系数。</li>
+          <li>挑出对各人工质量维度最具预测力的机器信号。</li>
+          <li>用按品类加权的回归、决策树或聚类拟合最终分数。</li>
+          <li>持续监控相关性，对齐度下降时更换评估器。</li>
+        </ol>
+      </div>
     </section>
 
     <section id="data">
-      <div class="section-head"><span class="section-no" aria-hidden="true">06</span><h2>Datasets and metrics</h2></div>
-      <div class="prose"><p>Public benchmarks enable standardized comparison, while custom datasets capture the realities of a specific product. Strong evaluation programs use both.</p></div>
+      <div class="section-head"><span class="section-no" aria-hidden="true">06</span><h2><span class="i18n-zh">数据集与指标</span><span class="i18n-en">Datasets and metrics</span></h2></div>
+      <div class="prose">
+        <p class="i18n-en">Public benchmarks enable standardized comparison, while custom datasets capture the realities of a specific product. Strong evaluation programs use both.</p>
+        <p class="i18n-zh">公开基准支持标准化对比，自建数据集捕捉特定产品的真实情况。成熟的评测体系两者兼用。</p>
+      </div>
       <div class="benchmark-groups">
-        <article class="benchmark-group"><h3>Public benchmarks</h3><p>Knowledge and Chinese capability: MMLU, C-Eval, CMMLU. Reasoning and general ability: HellaSwag, ARC, OpenBookQA, ANLI, BBH, AGIEval. Math, dialogue, code, and safety: GSM8K, MATH, MT-Bench, HumanEval, MBPP, TruthfulQA, PromptBench.</p></article>
-        <article class="benchmark-group"><h3>Custom evaluation sets</h3><p>Start from product requirements, collect representative and difficult cases, clean and extend the data, define expert labels, and preserve a small golden set for calibration and regression testing.</p></article>
+        <article class="benchmark-group"><h3><span class="i18n-zh">公开基准</span><span class="i18n-en">Public benchmarks</span></h3><p class="i18n-en">Knowledge and Chinese capability: MMLU, C-Eval, CMMLU. Reasoning and general ability: HellaSwag, ARC, OpenBookQA, ANLI, BBH, AGIEval. Math, dialogue, code, and safety: GSM8K, MATH, MT-Bench, HumanEval, MBPP, TruthfulQA, PromptBench.</p><p class="i18n-zh">知识与中文能力：MMLU、C-Eval、CMMLU。推理与通用能力：HellaSwag、ARC、OpenBookQA、ANLI、BBH、AGIEval。数学、对话、代码与安全：GSM8K、MATH、MT-Bench、HumanEval、MBPP、TruthfulQA、PromptBench。</p></article>
+        <article class="benchmark-group"><h3><span class="i18n-zh">自建评测集</span><span class="i18n-en">Custom evaluation sets</span></h3><p class="i18n-en">Start from product requirements, collect representative and difficult cases, clean and extend the data, define expert labels, and preserve a small golden set for calibration and regression testing.</p><p class="i18n-zh">从产品需求出发，收集有代表性的难题，清洗并扩展数据，定义专家标签，并保留一个小规模金标集用于校准与回归测试。</p></article>
       </div>
       <div class="metrics">
-        <article class="metric"><h3>Objective indicators</h3><p>Accuracy, precision, recall, F1, BLEU, ROUGE, task completion, retrieval accuracy, latency, error rate, and cost per task.</p></article>
-        <article class="metric"><h3>Subjective indicators</h3><p>Fluency, logic, relevance, consistency, usefulness, safety, user experience, expert preference, and satisfaction.</p></article>
+        <article class="metric"><h3><span class="i18n-zh">客观指标</span><span class="i18n-en">Objective indicators</span></h3><p class="i18n-en">Accuracy, precision, recall, F1, BLEU, ROUGE, task completion, retrieval accuracy, latency, error rate, and cost per task.</p><p class="i18n-zh">准确率、精确率、召回率、F1、BLEU、ROUGE、任务完成率、检索准确率、延迟、错误率与单任务成本。</p></article>
+        <article class="metric"><h3><span class="i18n-zh">主观指标</span><span class="i18n-en">Subjective indicators</span></h3><p class="i18n-en">Fluency, logic, relevance, consistency, usefulness, safety, user experience, expert preference, and satisfaction.</p><p class="i18n-zh">流畅度、逻辑、相关性、一致性、有用性、安全性、用户体验、专家偏好与满意度。</p></article>
       </div>
     </section>
 
     <section id="takeaways">
-      <div class="section-head"><span class="section-no" aria-hidden="true">07</span><h2>Core takeaways</h2></div>
+      <div class="section-head"><span class="section-no" aria-hidden="true">07</span><h2><span class="i18n-zh">核心要点</span><span class="i18n-en">Core takeaways</span></h2></div>
       <div class="takeaway-grid">
-        <article class="card"><span class="label">01</span><h3>Evaluate the system, not only the model</h3><p>Application quality emerges from the interaction of prompts, models, tools, data, and user workflows.</p></article>
-        <article class="card"><span class="label">02</span><h3>Connect scores to real outcomes</h3><p>Automated evaluation becomes meaningful only when it predicts expert judgment or observable user and business behavior.</p></article>
-        <article class="card"><span class="label">03</span><h3>Treat evaluation as infrastructure</h3><p>A reusable SOP, golden dataset, regression process, and feedback loop let evaluation drive continuous model and product evolution.</p></article>
+        <article class="card"><span class="label">01</span><h3><span class="i18n-zh">评测系统，而非仅评测模型</span><span class="i18n-en">Evaluate the system, not only the model</span></h3><p class="i18n-en">Application quality emerges from the interaction of prompts, models, tools, data, and user workflows.</p><p class="i18n-zh">应用质量来自提示词、模型、工具、数据与用户工作流的共同作用。</p></article>
+        <article class="card"><span class="label">02</span><h3><span class="i18n-zh">把分数连接到真实结果</span><span class="i18n-en">Connect scores to real outcomes</span></h3><p class="i18n-en">Automated evaluation becomes meaningful only when it predicts expert judgment or observable user and business behavior.</p><p class="i18n-zh">自动评测只有能预测专家判断、或可观察的用户与业务行为时才有意义。</p></article>
+        <article class="card"><span class="label">03</span><h3><span class="i18n-zh">把评测当作基础设施</span><span class="i18n-en">Treat evaluation as infrastructure</span></h3><p class="i18n-en">A reusable SOP, golden dataset, regression process, and feedback loop let evaluation drive continuous model and product evolution.</p><p class="i18n-zh">可复用的 SOP、金标数据集、回归流程与反馈回路，让评测持续驱动模型与产品演进。</p></article>
       </div>
-      <p class="source-note">This page is an edited public summary of Serena Song's Chinese article “模型评测.” Internal platform links, internal screenshots, and organization-specific implementation details have intentionally been omitted.</p>
+      <p class="source-note i18n-en">This page is an edited public summary of Serena Song's Chinese article “模型评测.” Internal platform links, internal screenshots, and organization-specific implementation details have intentionally been omitted.</p>
+      <p class="source-note i18n-zh">本页是宋月中文文章《模型评测》的公开摘要。内部平台链接、内部截图与组织特定的实现细节已刻意省略。</p>
     </section>
   </main>
 
   <footer>
-    <span>© 2026 宋月 Serena Song · Peking University</span>
-    <span><a href="index.html">首页 HOME</a>&nbsp;&nbsp;·&nbsp;&nbsp;<a href="https://github.com/serenasonggg-ship-it">GitHub</a></span>
-    <span>Selected Writing · July 2026 · 皮下印刷</span>
+    <span><span class="i18n-zh">© 2026 宋月 · 北京大学</span><span class="i18n-en">© 2026 Serena Song 宋月 · Peking University</span></span>
+    <span><a href="index.html"><span class="i18n-zh">首页</span><span class="i18n-en">HOME</span></a>&nbsp;&nbsp;·&nbsp;&nbsp;<a href="https://github.com/serenasonggg-ship-it">GitHub</a></span>
+    <span><span class="i18n-zh">精选写作 · 2026 年 7 月 · 皮下印刷</span><span class="i18n-en">Selected Writing · July 2026 · Subdermal Press</span></span>
   </footer>
+
+  <script src="./lang.js"></script>
 </body>
 </html>

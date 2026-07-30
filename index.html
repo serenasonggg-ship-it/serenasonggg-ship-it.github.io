@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="宋月 Serena Song — 北京大学硕士在读。LLM 应用与评测、社会模拟、AI 教育、以人为本的产品系统。Academic homepage with a halftone subdermal apple.">
   <meta name="theme-color" content="#841240">
-  <title>宋月 Serena Song · 皮下主页 SUBDERMAL HOMEPAGE</title>
+  <title data-zh="宋月 Serena Song · 皮下主页" data-en="Serena Song 宋月 · Subdermal Homepage">宋月 Serena Song · 皮下主页 SUBDERMAL HOMEPAGE</title>
+  <script>try{document.documentElement.dataset.lang=(new URLSearchParams(location.search).get("lang")||localStorage.getItem("site-lang")||((navigator.language||"en").toLowerCase().indexOf("zh")===0?"zh":"en"))}catch(e){document.documentElement.dataset.lang="en"}</script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -48,6 +49,27 @@
 
     a { color: inherit; }
     a:focus-visible { outline: 2px dashed var(--ink); outline-offset: 3px; }
+
+    /* i18n */
+    html[data-lang="zh"] .i18n-en { display: none !important; }
+    html[data-lang="en"] .i18n-zh { display: none !important; }
+
+    .lang-toggle {
+      position: fixed; right: 18px; bottom: 18px; z-index: 60;
+      display: flex; padding: 0;
+      background: var(--paper);
+      border: 2px solid var(--ink);
+      box-shadow: 3px 3px 0 var(--ink);
+      font: 800 12px/1 var(--mono); letter-spacing: .06em;
+      cursor: pointer;
+      transform: rotate(-1.5deg);
+      transition: transform .15s ease;
+    }
+    .lang-toggle:hover { transform: rotate(0); }
+    .lang-toggle .opt { padding: 10px 13px; color: var(--ink); }
+    .lang-toggle .opt + .opt { border-left: 2px solid var(--ink); }
+    html[data-lang="zh"] .lang-toggle .opt-zh,
+    html[data-lang="en"] .lang-toggle .opt-en { background: var(--ink); color: var(--paper); }
 
     #apple-holder { position: fixed; inset: 0; z-index: 0; }
     #apple-holder canvas { display: block; }
@@ -247,7 +269,7 @@
     /* about */
     .about-grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: clamp(32px, 5vw, 64px); align-items: start; }
     .about-text p { margin: 0 0 18px; font: 400 15.5px/1.9 var(--sans); }
-    .about-text p:first-of-type::first-letter {
+    html[data-lang="en"] .about-text p:first-of-type::first-letter {
       float: left;
       margin: 7px 12px 0 0;
       color: var(--ink);
@@ -380,7 +402,7 @@
       .ticker-track, .scroll-cue { animation: none; }
     }
     @media print {
-      #apple-holder, .grain, .ticker, .scroll-cue { display: none; }
+      #apple-holder, .grain, .ticker, .scroll-cue, .lang-toggle { display: none; }
       .band, .hero { background: #fff; }
     }
   </style>
@@ -388,6 +410,10 @@
 <body>
   <div id="apple-holder" aria-hidden="true"></div>
   <div class="grain" aria-hidden="true"></div>
+
+  <button class="lang-toggle" type="button" aria-label="Switch language 切换语言">
+    <span class="opt opt-zh">中</span><span class="opt opt-en">EN</span>
+  </button>
 
   <div class="page">
     <div class="ticker" aria-hidden="true">
@@ -399,28 +425,29 @@
 
     <header class="hero" id="top">
       <div class="hero-main">
-        <p class="hero-kicker">个人主页 · PERSONAL HOMEPAGE · VOL.01</p>
+        <p class="hero-kicker"><span class="i18n-zh">个人主页 · VOL.01</span><span class="i18n-en">PERSONAL HOMEPAGE · VOL.01</span></p>
         <h1>
           <span class="cn">宋月</span>
           <span class="en">SERENA SONG</span>
         </h1>
-        <p class="lede">研究智能系统如何与人相处。<br><b>I study how intelligent systems interact with people</b> — LLM applications &amp; evaluation, social simulation, AI for education, and human-centered product systems.</p>
+        <p class="lede i18n-zh">研究智能系统如何与人相处——<b>LLM 应用与评测</b>、社会模拟、AI 教育，以及以人为本的产品系统。</p>
+        <p class="lede i18n-en"><b>I study how intelligent systems interact with people</b> — LLM applications &amp; evaluation, social simulation, AI for education, and human-centered product systems.</p>
 
         <nav class="toc" aria-label="目录 Index">
-          <a href="#about"><span class="no">01</span><span class="name">关于 ABOUT</span><span class="dots"></span><span class="pg">P.01</span></a>
-          <a href="#education"><span class="no">02</span><span class="name">教育 EDUCATION</span><span class="dots"></span><span class="pg">P.02</span></a>
-          <a href="#experience"><span class="no">03</span><span class="name">经历 EXPERIENCE</span><span class="dots"></span><span class="pg">P.03</span></a>
-          <a href="#projects"><span class="no">04</span><span class="name">项目 PROJECTS</span><span class="dots"></span><span class="pg">P.04</span></a>
-          <a href="#writing"><span class="no">05</span><span class="name">写作 WRITING</span><span class="dots"></span><span class="pg">P.05</span></a>
-          <a href="#skills"><span class="no">06</span><span class="name">技能 SKILLS</span><span class="dots"></span><span class="pg">P.06</span></a>
+          <a href="#about"><span class="no">01</span><span class="name i18n-zh">关于</span><span class="name i18n-en">ABOUT</span><span class="dots"></span><span class="pg">P.01</span></a>
+          <a href="#education"><span class="no">02</span><span class="name i18n-zh">教育</span><span class="name i18n-en">EDUCATION</span><span class="dots"></span><span class="pg">P.02</span></a>
+          <a href="#experience"><span class="no">03</span><span class="name i18n-zh">经历</span><span class="name i18n-en">EXPERIENCE</span><span class="dots"></span><span class="pg">P.03</span></a>
+          <a href="#projects"><span class="no">04</span><span class="name i18n-zh">项目</span><span class="name i18n-en">PROJECTS</span><span class="dots"></span><span class="pg">P.04</span></a>
+          <a href="#writing"><span class="no">05</span><span class="name i18n-zh">写作</span><span class="name i18n-en">WRITING</span><span class="dots"></span><span class="pg">P.05</span></a>
+          <a href="#skills"><span class="no">06</span><span class="name i18n-zh">技能</span><span class="name i18n-en">SKILLS</span><span class="dots"></span><span class="pg">P.06</span></a>
         </nav>
       </div>
 
       <aside class="id-card tape" aria-label="联系方式 Contact">
-        <p><span class="label">Affiliation · 单位</span>Peking University 北京大学<br>Master's Student · 硕士在读</p>
-        <p><span class="label">Academic · 学术邮箱</span><a href="mailto:2401212651@stu.pku.edu.cn">2401212651@stu.pku.edu.cn</a></p>
-        <p><span class="label">Personal · 个人邮箱</span><a href="mailto:xxsongtz@gmail.com">xxsongtz@gmail.com</a></p>
-        <p><span class="label">Profile · 主页</span><a href="https://github.com/serenasonggg-ship-it">github.com/serenasonggg-ship-it</a></p>
+        <p><span class="label"><span class="i18n-zh">单位</span><span class="i18n-en">Affiliation</span></span><span class="i18n-zh">北京大学<br>硕士在读</span><span class="i18n-en">Peking University<br>Master's Student</span></p>
+        <p><span class="label"><span class="i18n-zh">学术邮箱</span><span class="i18n-en">Academic</span></span><a href="mailto:2401212651@stu.pku.edu.cn">2401212651@stu.pku.edu.cn</a></p>
+        <p><span class="label"><span class="i18n-zh">个人邮箱</span><span class="i18n-en">Personal</span></span><a href="mailto:xxsongtz@gmail.com">xxsongtz@gmail.com</a></p>
+        <p><span class="label"><span class="i18n-zh">主页</span><span class="i18n-en">Profile</span></span><a href="https://github.com/serenasonggg-ship-it">github.com/serenasonggg-ship-it</a></p>
       </aside>
 
       <div class="seal" aria-hidden="true">亚文化</div>
@@ -433,30 +460,36 @@
         <div class="band-inner">
           <div class="band-head">
             <span class="sec-no" aria-hidden="true">01</span>
-            <h2 class="sec-title">关于 ABOUT</h2>
-            <p class="sec-kicker">跨学科建造者 · A cross-disciplinary builder</p>
+            <h2 class="sec-title"><span class="i18n-zh">关于</span><span class="i18n-en">ABOUT</span></h2>
+            <p class="sec-kicker"><span class="i18n-zh">跨学科建造者</span><span class="i18n-en">A cross-disciplinary builder</span></p>
           </div>
           <div class="about-grid">
             <div class="about-text">
-              <p>I am a master's student in Financial Media at Peking University, with an undergraduate background in Internet of Things Engineering. My work sits at the intersection of LLM applications and evaluation, human-centered AI, social simulation, educational technology, and data-informed product systems.</p>
-              <p>Before returning to graduate study, I worked across product management and quality engineering at Veeva Systems, and later supported production management operations at Tencent IEG Global. These experiences shaped my interest in turning complex human and organizational problems into measurable, testable systems.</p>
+              <p class="i18n-en">I am a master's student in Financial Media at Peking University, with an undergraduate background in Internet of Things Engineering. My work sits at the intersection of LLM applications and evaluation, human-centered AI, social simulation, educational technology, and data-informed product systems.</p>
+              <p class="i18n-en">Before returning to graduate study, I worked across product management and quality engineering at Veeva Systems, and later supported production management operations at Tencent IEG Global. These experiences shaped my interest in turning complex human and organizational problems into measurable, testable systems.</p>
+              <p class="i18n-zh">我是北京大学财经传媒方向的硕士生，本科背景是物联网工程。我的研究与实践位于 LLM 应用与评测、以人为本的 AI、社会模拟、教育技术，以及数据驱动的产品系统的交叉地带。</p>
+              <p class="i18n-zh">重返校园之前，我曾在 Veeva Systems 先后担任质量工程师与产品经理，之后在腾讯 IEG Global 支持生产管理运营。这些经历让我热衷于把复杂的人与组织问题，转化为可度量、可测试的系统。</p>
             </div>
             <div class="cut-grid" aria-label="Current focus areas">
               <article class="cut-card">
-                <h3>LLM Social Simulation</h3>
-                <p>Modeling cognitive bias, perceived media effects, and social distance through controlled multi-turn interactions.</p>
+                <h3><span class="i18n-zh">LLM 社会模拟</span><span class="i18n-en">LLM Social Simulation</span></h3>
+                <p class="i18n-zh">通过可控的多轮交互，建模认知偏差、感知媒体效应与社会距离。</p>
+                <p class="i18n-en">Modeling cognitive bias, perceived media effects, and social distance through controlled multi-turn interactions.</p>
               </article>
               <article class="cut-card">
-                <h3>LLM Evaluation</h3>
-                <p>Evaluating model and application quality through task-oriented criteria, structured testing, and real-world product contexts.</p>
+                <h3><span class="i18n-zh">LLM 评测</span><span class="i18n-en">LLM Evaluation</span></h3>
+                <p class="i18n-zh">以任务导向的标准、结构化测试与真实产品语境，评估模型与应用的质量。</p>
+                <p class="i18n-en">Evaluating model and application quality through task-oriented criteria, structured testing, and real-world product contexts.</p>
               </article>
               <article class="cut-card">
-                <h3>AI for Education</h3>
-                <p>Designing reliable writing-assessment agents with structured feedback, RAG, and domain-specific evaluation.</p>
+                <h3><span class="i18n-zh">AI 教育</span><span class="i18n-en">AI for Education</span></h3>
+                <p class="i18n-zh">设计可靠的写作评测智能体：结构化反馈、RAG 与领域特定评测。</p>
+                <p class="i18n-en">Designing reliable writing-assessment agents with structured feedback, RAG, and domain-specific evaluation.</p>
               </article>
               <article class="cut-card">
-                <h3>Human-Centered Systems</h3>
-                <p>Combining user research, behavioral data, and product design to improve complex enterprise workflows.</p>
+                <h3><span class="i18n-zh">以人为本的系统</span><span class="i18n-en">Human-Centered Systems</span></h3>
+                <p class="i18n-zh">结合用户研究、行为数据与产品设计，改进复杂的企业工作流。</p>
+                <p class="i18n-en">Combining user research, behavioral data, and product design to improve complex enterprise workflows.</p>
               </article>
             </div>
           </div>
@@ -467,23 +500,25 @@
         <div class="band-inner">
           <div class="band-head">
             <span class="sec-no" aria-hidden="true">02</span>
-            <h2 class="sec-title">教育 EDUCATION</h2>
-            <p class="sec-kicker">技术训练 ✕ 社科训练 · Technical and social science training</p>
+            <h2 class="sec-title"><span class="i18n-zh">教育</span><span class="i18n-en">EDUCATION</span></h2>
+            <p class="sec-kicker"><span class="i18n-zh">技术训练 ✕ 社科训练</span><span class="i18n-en">Technical and social science training</span></p>
           </div>
           <article class="entry">
             <div class="date">2024 — 2027</div>
             <div>
-              <h3>Peking University · 北京大学</h3>
-              <p class="meta">Master's degree candidate · Financial Media 财经传媒</p>
-              <p>Graduate study connecting media, technology, data, and social inquiry.</p>
+              <h3><span class="i18n-zh">北京大学</span><span class="i18n-en">Peking University</span></h3>
+              <p class="meta"><span class="i18n-zh">硕士在读 · 财经传媒</span><span class="i18n-en">Master's degree candidate · Financial Media</span></p>
+              <p class="i18n-zh">连接媒体、技术、数据与社会研究的研究生训练。</p>
+              <p class="i18n-en">Graduate study connecting media, technology, data, and social inquiry.</p>
             </div>
           </article>
           <article class="entry">
-            <div class="date">Undergraduate</div>
+            <div class="date"><span class="i18n-zh">本科</span><span class="i18n-en">Undergraduate</span></div>
             <div>
-              <h3>Dalian Maritime University · 大连海事大学</h3>
-              <p class="meta">B.Eng. · Internet of Things Engineering 物联网工程 · GPA 3.84/5.0</p>
-              <p>Coursework included digital signal processing, mathematical modeling, machine learning, and programming in C, C++, and Java.</p>
+              <h3><span class="i18n-zh">大连海事大学</span><span class="i18n-en">Dalian Maritime University</span></h3>
+              <p class="meta"><span class="i18n-zh">工学学士 · 物联网工程 · GPA 3.84/5.0</span><span class="i18n-en">B.Eng. · Internet of Things Engineering · GPA 3.84/5.0</span></p>
+              <p class="i18n-zh">课程涵盖数字信号处理、数学建模、机器学习，以及 C、C++、Java 编程。</p>
+              <p class="i18n-en">Coursework included digital signal processing, mathematical modeling, machine learning, and programming in C, C++, and Java.</p>
             </div>
           </article>
         </div>
@@ -493,15 +528,21 @@
         <div class="band-inner">
           <div class="band-head">
             <span class="sec-no" aria-hidden="true">03</span>
-            <h2 class="sec-title">经历 EXPERIENCE</h2>
-            <p class="sec-kicker">产品 · 数据 · 全球团队 · Products, data, and global teams</p>
+            <h2 class="sec-title"><span class="i18n-zh">经历</span><span class="i18n-en">EXPERIENCE</span></h2>
+            <p class="sec-kicker"><span class="i18n-zh">产品 · 数据 · 全球团队</span><span class="i18n-en">Products, data, and global teams</span></p>
           </div>
           <article class="entry">
             <div class="date">Oct 2025 — Feb 2026</div>
             <div>
-              <h3>Tencent 腾讯 · IEG Global</h3>
-              <p class="meta">Production Management Operations · Shenzhen</p>
-              <ul>
+              <h3><span class="i18n-zh">腾讯 · IEG Global</span><span class="i18n-en">Tencent · IEG Global</span></h3>
+              <p class="meta"><span class="i18n-zh">生产管理运营 · 深圳</span><span class="i18n-en">Production Management Operations · Shenzhen</span></p>
+              <ul class="i18n-zh">
+                <li>基于全年行为数据与深度用户研究主导产品分析，产出的重构方案被纳入 2026 产品路线图。</li>
+                <li>负责 LLM 应用评测，将对回答质量、一致性、任务效果与实用性的结构化评估转化为产品建议。</li>
+                <li>发现影响 24.4% 用户的权限异常，并为高频变动、安全敏感的组织提出角色管理方案。</li>
+                <li>主导面向跨境协作方的发布验收与双语用户文档；同时撰写腾讯 KM 头条文章，主题覆盖 LLM 应用与评测。</li>
+              </ul>
+              <ul class="i18n-en">
                 <li>Led product analysis using a full year of behavioral data and in-depth user research; produced a redesign plan adopted into the 2026 product roadmap.</li>
                 <li>Conducted LLM application evaluation, translating structured assessment of response quality, consistency, task effectiveness, and practical usability into product recommendations.</li>
                 <li>Identified permission anomalies affecting 24.4% of users and proposed a role-management solution for a frequently changing, security-sensitive organization.</li>
@@ -513,8 +554,12 @@
             <div class="date">Jan 2024 — Aug 2024</div>
             <div>
               <h3>Veeva Systems · China CRM</h3>
-              <p class="meta">Product Manager · Beijing</p>
-              <ul>
+              <p class="meta"><span class="i18n-zh">产品经理 · 北京</span><span class="i18n-en">Product Manager · Beijing</span></p>
+              <ul class="i18n-zh">
+                <li>管理 MSD 与企业微信的集成项目，跨四个以上职能协作，将发布周期缩短 40%，获 2024 年关键项目管理奖。</li>
+                <li>设计服务全球药企团队的外部联系人与会议工作流，包括客户转移、数据共享与腾讯会议集成。</li>
+              </ul>
+              <ul class="i18n-en">
                 <li>Managed an MSD and WeCom integration across four-plus functions, reducing the release cycle by 40% and receiving a 2024 key project management award.</li>
                 <li>Designed external-contact and meeting workflows used by global pharmaceutical teams, including account transfer, data sharing, and Tencent Meeting integrations.</li>
               </ul>
@@ -524,8 +569,12 @@
             <div class="date">Nov 2020 — Jan 2024</div>
             <div>
               <h3>Veeva Systems · Global CRM</h3>
-              <p class="meta">QA Engineer · Beijing</p>
-              <ul>
+              <p class="meta"><span class="i18n-zh">QA 工程师 · 北京</span><span class="i18n-en">QA Engineer · Beijing</span></p>
+              <ul class="i18n-zh">
+                <li>测试十余条核心 SaaS 工作流，使用 MySQL 进行数据验证、环境搭建与权限清理。</li>
+                <li>编写 10+ 个 Python 自动化脚本，并用 Postman 覆盖标准与边界场景的 API 验证。</li>
+              </ul>
+              <ul class="i18n-en">
                 <li>Tested more than ten core SaaS workflows, using MySQL for validation, environment setup, and permission cleanup.</li>
                 <li>Built 10+ Python automation scripts and validated APIs with Postman across standard and edge-case scenarios.</li>
               </ul>
@@ -538,17 +587,18 @@
         <div class="band-inner">
           <div class="band-head">
             <span class="sec-no" aria-hidden="true">04</span>
-            <h2 class="sec-title">项目 PROJECTS</h2>
-            <p class="sec-kicker">研究 ✕ 应用 AI · Research and applied AI</p>
+            <h2 class="sec-title"><span class="i18n-zh">项目</span><span class="i18n-en">PROJECTS</span></h2>
+            <p class="sec-kicker"><span class="i18n-zh">研究 ✕ 应用 AI</span><span class="i18n-en">Research and applied AI</span></p>
           </div>
           <article class="project">
             <span class="proj-no" aria-hidden="true">P1</span>
             <div>
               <div class="project-head">
-                <h3>LLM Social Simulation &amp; Psychological Modeling</h3>
-                <time>Nov 2025 — Present</time>
+                <h3><span class="i18n-zh">LLM 社会模拟与心理建模</span><span class="i18n-en">LLM Social Simulation &amp; Psychological Modeling</span></h3>
+                <time>Nov 2025 — <span class="i18n-zh">至今</span><span class="i18n-en">Present</span></time>
               </div>
-              <p>An independent project using LLMs to examine the third-person effect in digital environments. I constructed anthropological feature parameters, reproduced perceived asymmetry around misinformation, and used dialogue frequency as a dynamic proxy for social distance.</p>
+              <p class="i18n-zh">独立研究项目：用 LLM 检验数字环境中的第三人效果。构建人类学特征参数，复现围绕不实信息的感知不对称，并以对话频率作为社会距离的动态代理指标。</p>
+              <p class="i18n-en">An independent project using LLMs to examine the third-person effect in digital environments. I constructed anthropological feature parameters, reproduced perceived asymmetry around misinformation, and used dialogue frequency as a dynamic proxy for social distance.</p>
               <div class="tags"><span class="tag">LLM APIs</span><span class="tag">Prompt Engineering</span><span class="tag">Social Simulation</span><span class="tag">Experimental Design</span></div>
             </div>
           </article>
@@ -556,10 +606,11 @@
             <span class="proj-no" aria-hidden="true">P2</span>
             <div>
               <div class="project-head">
-                <h3>AI Writing Assessment Agent</h3>
+                <h3><span class="i18n-zh">AI 写作评测智能体</span><span class="i18n-en">AI Writing Assessment Agent</span></h3>
                 <time>Jun 2025 — Oct 2025</time>
               </div>
-              <p>Led the first phase of an educational AI product covering OCR-based document ingestion, automated scoring, grammar correction, and structured writing feedback. Designed the Vue and FastAPI architecture, integrated OCR and LLM services, built a RAG knowledge base, and evaluated outputs against expert teachers across five quality dimensions.</p>
+              <p class="i18n-zh">主导教育 AI 产品一期：OCR 文档接入、自动评分、语法批改与结构化写作反馈。设计 Vue + FastAPI 架构，接入 OCR 与 LLM 服务，搭建 RAG 知识库，并从五个质量维度对标专家教师评测输出。</p>
+              <p class="i18n-en">Led the first phase of an educational AI product covering OCR-based document ingestion, automated scoring, grammar correction, and structured writing feedback. Designed the Vue and FastAPI architecture, integrated OCR and LLM services, built a RAG knowledge base, and evaluated outputs against expert teachers across five quality dimensions.</p>
               <div class="tags"><span class="tag">Vue</span><span class="tag">FastAPI</span><span class="tag">RAG</span><span class="tag">OCR</span><span class="tag">LLM Evaluation</span></div>
             </div>
           </article>
@@ -567,10 +618,11 @@
             <span class="proj-no" aria-hidden="true">P3</span>
             <div>
               <div class="project-head">
-                <h3>Vehicle Recognition System</h3>
+                <h3><span class="i18n-zh">车辆识别系统</span><span class="i18n-en">Vehicle Recognition System</span></h3>
                 <time>Nov 2020 — Apr 2021</time>
               </div>
-              <p>Developed a vehicle-recognition pipeline using Faster R-CNN, Mask R-CNN, OpenCV, and TensorFlow. Trained and validated the system on more than 20,000 images across passenger cars, SUVs, police cars, and ambulances, keeping classification error below 5%.</p>
+              <p class="i18n-zh">基于 Faster R-CNN、Mask R-CNN、OpenCV 与 TensorFlow 开发车辆识别流水线。在超过 20,000 张图像上完成训练与验证，覆盖轿车、SUV、警车与救护车，分类错误率低于 5%。</p>
+              <p class="i18n-en">Developed a vehicle-recognition pipeline using Faster R-CNN, Mask R-CNN, OpenCV, and TensorFlow. Trained and validated the system on more than 20,000 images across passenger cars, SUVs, police cars, and ambulances, keeping classification error below 5%.</p>
               <div class="tags"><span class="tag">Computer Vision</span><span class="tag">TensorFlow</span><span class="tag">OpenCV</span><span class="tag">CNN</span></div>
             </div>
           </article>
@@ -581,15 +633,16 @@
         <div class="band-inner">
           <div class="band-head">
             <span class="sec-no" aria-hidden="true">05</span>
-            <h2 class="sec-title">写作 WRITING</h2>
-            <p class="sec-kicker">应用 AI 知识分享 · Applied AI knowledge sharing</p>
+            <h2 class="sec-title"><span class="i18n-zh">写作</span><span class="i18n-en">WRITING</span></h2>
+            <p class="sec-kicker"><span class="i18n-zh">应用 AI 知识分享</span><span class="i18n-en">Applied AI knowledge sharing</span></p>
           </div>
           <article class="feature tape">
-            <h3>Tencent KM Headline Author · 腾讯 KM 头条作者</h3>
-            <p class="meta">LLM applications &amp; evaluation · 模型应用与评测</p>
-            <p>I write headline articles for Tencent's internal KM platform, focusing on how large language models are applied, evaluated, and improved in real product settings. My writing connects technical assessment with product decisions, translating model behavior, evaluation methods, and application trade-offs into practical insights for cross-functional teams.</p>
+            <h3><span class="i18n-zh">腾讯 KM 头条作者</span><span class="i18n-en">Tencent KM Headline Author</span></h3>
+            <p class="meta"><span class="i18n-zh">LLM 应用与评测</span><span class="i18n-en">LLM applications &amp; evaluation</span></p>
+            <p class="i18n-zh">我在腾讯内部 KM 平台撰写头条文章，关注大语言模型在真实产品场景中的应用、评测与改进。写作连接技术评估与产品决策，把模型行为、评测方法与应用权衡，转化为跨职能团队可落地的实践洞察。</p>
+            <p class="i18n-en">I write headline articles for Tencent's internal KM platform, focusing on how large language models are applied, evaluated, and improved in real product settings. My writing connects technical assessment with product decisions, translating model behavior, evaluation methods, and application trade-offs into practical insights for cross-functional teams.</p>
             <div class="tags"><span class="tag">LLM Applications</span><span class="tag">LLM Evaluation</span><span class="tag">Technical Writing</span><span class="tag">Knowledge Management</span></div>
-            <a class="stamp-btn" href="model-evaluation.html">READ 阅读 · A Practical Framework for LLM Evaluation →</a>
+            <a class="stamp-btn" href="model-evaluation.html"><span class="i18n-zh">阅读 · 模型评测实践框架 →</span><span class="i18n-en">READ · A Practical Framework for LLM Evaluation →</span></a>
           </article>
         </div>
       </section>
@@ -598,15 +651,35 @@
         <div class="band-inner">
           <div class="band-head">
             <span class="sec-no" aria-hidden="true">06</span>
-            <h2 class="sec-title">技能 SKILLS</h2>
-            <p class="sec-kicker">工具与视角 · Tools and perspectives</p>
+            <h2 class="sec-title"><span class="i18n-zh">技能</span><span class="i18n-en">SKILLS</span></h2>
+            <p class="sec-kicker"><span class="i18n-zh">工具与视角</span><span class="i18n-en">Tools and perspectives</span></p>
           </div>
           <div class="skill-grid">
-            <div class="skill"><h3>Programming &amp; Data</h3><p>Python, SQL, MySQL, C, C++, Java, data analysis, automation testing</p></div>
-            <div class="skill"><h3>AI &amp; Research</h3><p>LLM applications, LLM evaluation, RAG, prompt engineering, OCR, experimental design, model evaluation</p></div>
-            <div class="skill"><h3>Product &amp; Development</h3><p>User research, product analytics, PRD, Vue, FastAPI, API integration, Postman</p></div>
-            <div class="skill"><h3>Writing &amp; Communication</h3><p>Technical writing, knowledge management, bilingual documentation, cross-functional communication</p></div>
-            <div class="skill"><h3>Languages &amp; Interests</h3><p>Mandarin Chinese, English (IELTS 7.0) · Cricket 板球, travel 旅行, electronic &amp; jazz music 电子与爵士</p></div>
+            <div class="skill">
+              <h3><span class="i18n-zh">编程与数据</span><span class="i18n-en">Programming &amp; Data</span></h3>
+              <p class="i18n-zh">Python、SQL、MySQL、C、C++、Java、数据分析、自动化测试</p>
+              <p class="i18n-en">Python, SQL, MySQL, C, C++, Java, data analysis, automation testing</p>
+            </div>
+            <div class="skill">
+              <h3><span class="i18n-zh">AI 与研究</span><span class="i18n-en">AI &amp; Research</span></h3>
+              <p class="i18n-zh">LLM 应用、LLM 评测、RAG、提示工程、OCR、实验设计、模型评估</p>
+              <p class="i18n-en">LLM applications, LLM evaluation, RAG, prompt engineering, OCR, experimental design, model evaluation</p>
+            </div>
+            <div class="skill">
+              <h3><span class="i18n-zh">产品与开发</span><span class="i18n-en">Product &amp; Development</span></h3>
+              <p class="i18n-zh">用户研究、产品分析、PRD、Vue、FastAPI、API 集成、Postman</p>
+              <p class="i18n-en">User research, product analytics, PRD, Vue, FastAPI, API integration, Postman</p>
+            </div>
+            <div class="skill">
+              <h3><span class="i18n-zh">写作与沟通</span><span class="i18n-en">Writing &amp; Communication</span></h3>
+              <p class="i18n-zh">技术写作、知识管理、双语文档、跨职能沟通</p>
+              <p class="i18n-en">Technical writing, knowledge management, bilingual documentation, cross-functional communication</p>
+            </div>
+            <div class="skill">
+              <h3><span class="i18n-zh">语言与兴趣</span><span class="i18n-en">Languages &amp; Interests</span></h3>
+              <p class="i18n-zh">中文（母语）、英语（IELTS 7.0）· 板球、旅行、电子与爵士乐</p>
+              <p class="i18n-en">Mandarin Chinese, English (IELTS 7.0) · Cricket, travel, electronic and jazz music</p>
+            </div>
           </div>
         </div>
       </section>
@@ -620,12 +693,13 @@
     </div>
 
     <footer>
-      <span>© 2026 宋月 Serena Song · Peking University</span>
-      <span><a href="https://github.com/serenasonggg-ship-it">GitHub</a>&nbsp;&nbsp;·&nbsp;&nbsp;<a href="mailto:xxsongtz@gmail.com">Email</a>&nbsp;&nbsp;·&nbsp;&nbsp;<a href="#top">回到顶部 TOP ↑</a></span>
-      <span>皮下印刷 · Printed subdermally · Last updated July 2026</span>
+      <span><span class="i18n-zh">© 2026 宋月 · 北京大学</span><span class="i18n-en">© 2026 Serena Song 宋月 · Peking University</span></span>
+      <span><a href="https://github.com/serenasonggg-ship-it">GitHub</a>&nbsp;&nbsp;·&nbsp;&nbsp;<a href="mailto:xxsongtz@gmail.com">Email</a>&nbsp;&nbsp;·&nbsp;&nbsp;<a href="#top"><span class="i18n-zh">回到顶部 ↑</span><span class="i18n-en">TOP ↑</span></a></span>
+      <span><span class="i18n-zh">皮下印刷 · 2026 年 7 月更新</span><span class="i18n-en">Printed subdermally · Last updated July 2026</span></span>
     </footer>
   </div>
 
+  <script src="./lang.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/p5@1.9.4/lib/p5.min.js"></script>
   <script src="./sketch.js"></script>
 </body>
