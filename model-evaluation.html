@@ -1,142 +1,246 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Serena Song's practical framework for evaluating large language models, engineered capabilities, and real-world AI applications.">
-  <meta name="theme-color" content="#16252d">
-  <title>A Practical Framework for LLM Evaluation | Serena Song</title>
+  <meta name="description" content="Serena Song's practical framework for evaluating large language models, engineered capabilities, and real-world AI applications. 模型评测：从模型能力到真实应用的系统化闭环。">
+  <meta name="theme-color" content="#841240">
+  <title>模型评测 · A Practical Framework for LLM Evaluation | 宋月 Serena Song</title>
   <style>
     :root {
       color-scheme: light;
-      --ink: #16252d;
-      --muted: #5c6b71;
-      --paper: #fffdf9;
-      --canvas: #f3efe7;
-      --accent: #8a244b;
-      --accent-soft: #f3e5ea;
-      --teal: #1f6468;
-      --teal-soft: #e7f0ef;
-      --gold: #9a722b;
-      --line: #d9d5cc;
-      --serif: Georgia, "Times New Roman", "Songti SC", serif;
-      --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif;
+      --paper: #fffdfe;
+      --ink: #841240;
+      --ink-60: rgba(132, 18, 64, .6);
+      --ink-18: rgba(132, 18, 64, .18);
+      --ink-07: rgba(132, 18, 64, .07);
+      --black: #241016;
+      --serif: Georgia, "Times New Roman", "Songti SC", "SimSun", serif;
+      --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      --mono: ui-monospace, "SF Mono", Menlo, Consolas, "Courier New", monospace;
     }
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
       margin: 0;
-      color: var(--ink);
-      background:
-        radial-gradient(circle at 5% 3%, rgba(138, 36, 75, .12), transparent 28rem),
-        radial-gradient(circle at 96% 20%, rgba(31, 100, 104, .10), transparent 26rem),
-        var(--canvas);
-      font: 16px/1.75 var(--sans);
-    }
-    a { color: inherit; text-decoration-color: rgba(138,36,75,.55); text-underline-offset: 4px; }
-    a:hover { color: var(--accent); text-decoration-color: var(--accent); }
-    .shell {
-      width: min(1120px, calc(100% - 40px));
-      margin: 28px auto 56px;
+      color: var(--black);
       background: var(--paper);
-      border: 1px solid var(--line);
-      box-shadow: 0 24px 70px rgba(36, 34, 29, .09);
+      font: 16px/1.8 var(--sans);
     }
+    ::selection { background: var(--ink); color: var(--paper); }
+    ::-webkit-scrollbar { width: 10px; }
+    ::-webkit-scrollbar-track { background: var(--paper); }
+    ::-webkit-scrollbar-thumb { background: var(--ink); border: 2px solid var(--paper); }
+    a { color: inherit; }
+    a:focus-visible { outline: 2px dashed var(--ink); outline-offset: 3px; }
+
+    .grain {
+      position: fixed; inset: 0; z-index: 40;
+      pointer-events: none; opacity: .5; mix-blend-mode: multiply;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.52 0 0 0 0 0.07 0 0 0 0 0.25 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    /* ticker */
+    .ticker {
+      overflow: hidden;
+      background: var(--ink); color: var(--paper);
+      border-bottom: 1px solid var(--ink);
+      font: 600 11px/1 var(--mono); letter-spacing: .22em;
+    }
+    .ticker-track { display: flex; width: max-content; animation: tick 28s linear infinite; }
+    .ticker-track span { display: block; padding: 10px 0; white-space: nowrap; }
+    @keyframes tick { to { transform: translateX(-50%); } }
+
     nav {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 24px;
-      min-height: 68px;
-      padding: 12px clamp(22px, 5vw, 64px);
-      background: rgba(255, 253, 249, .94);
-      border-bottom: 1px solid var(--line);
-      backdrop-filter: blur(14px);
+      display: flex; align-items: center; justify-content: space-between; gap: 20px;
+      padding: 16px clamp(20px, 6vw, 84px);
+      border-bottom: 1px dashed var(--ink-60);
+      background: var(--paper);
     }
-    .wordmark { font: 600 18px/1.2 var(--serif); text-decoration: none; }
-    .back { color: var(--accent); font-size: 13px; font-weight: 700; text-decoration: none; }
-    header { padding: clamp(64px, 10vw, 116px) clamp(28px, 9vw, 118px) clamp(54px, 8vw, 88px); }
-    .eyebrow { margin: 0 0 18px; color: var(--accent); font-size: 12px; font-weight: 700; letter-spacing: .17em; text-transform: uppercase; }
-    h1 { max-width: 900px; margin: 0; font: 500 clamp(48px, 7vw, 82px)/1.02 var(--serif); letter-spacing: -.045em; }
-    .cn-title { display: block; margin-top: 16px; color: var(--muted); font: 400 clamp(23px, 3vw, 32px)/1.25 var(--serif); letter-spacing: .02em; }
-    .dek { max-width: 790px; margin: 30px 0 0; color: #34464e; font: clamp(19px, 2vw, 24px)/1.55 var(--serif); }
-    .byline { display: flex; flex-wrap: wrap; gap: 8px 24px; margin-top: 30px; color: var(--muted); font-size: 13px; }
+    .wordmark {
+      font: 700 13px/1 var(--mono); letter-spacing: .3em; text-transform: uppercase;
+      text-decoration: none;
+    }
+    .stamp-btn {
+      display: inline-block;
+      padding: 9px 16px;
+      color: var(--ink); background: var(--paper);
+      border: 2px solid var(--ink);
+      box-shadow: 3px 3px 0 var(--ink);
+      font: 800 11px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase;
+      text-decoration: none;
+      transform: rotate(-1deg);
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+    .stamp-btn:hover {
+      background: var(--ink); color: var(--paper);
+      transform: rotate(0) translate(1px, 1px);
+      box-shadow: 2px 2px 0 var(--ink);
+    }
+
+    header { padding: clamp(56px, 9vw, 108px) clamp(20px, 8vw, 108px) clamp(48px, 7vw, 80px); }
+    .eyebrow {
+      display: inline-block;
+      margin: 0 0 20px;
+      padding: 6px 12px;
+      color: var(--ink);
+      border: 1px solid var(--ink);
+      font: 700 10.5px/1 var(--mono); letter-spacing: .3em; text-transform: uppercase;
+      transform: rotate(-.8deg);
+    }
+    h1 {
+      max-width: 940px; margin: 0;
+      font: 500 clamp(42px, 6.4vw, 76px)/1.04 var(--serif); letter-spacing: -.03em;
+    }
+    .cn-title {
+      display: block; margin-top: 16px;
+      color: var(--ink);
+      font: 400 clamp(20px, 2.8vw, 30px)/1.3 var(--serif); letter-spacing: .04em;
+    }
+    .dek { max-width: 780px; margin: 26px 0 0; font: 400 clamp(17px, 2vw, 22px)/1.6 var(--serif); }
+    .byline {
+      display: flex; flex-wrap: wrap; gap: 8px 26px; margin-top: 26px;
+      color: var(--ink-60);
+      font: 700 10.5px/1.7 var(--mono); letter-spacing: .18em; text-transform: uppercase;
+    }
     .thesis {
-      margin-top: 48px;
-      padding: 28px 30px;
-      background: #172c34;
-      color: #f8f2e8;
-      border-left: 6px solid var(--accent);
-      font: 500 clamp(20px, 2.4vw, 28px)/1.5 var(--serif);
+      margin-top: 42px;
+      padding: 26px 30px;
+      background: var(--ink); color: var(--paper);
+      font: 500 clamp(18px, 2.2vw, 26px)/1.55 var(--serif);
+      transform: rotate(-.5deg);
+      box-shadow: 8px 8px 0 var(--ink-18);
     }
-    main { padding: 0 clamp(28px, 9vw, 118px) clamp(72px, 10vw, 116px); }
-    section { padding-top: 72px; scroll-margin-top: 64px; }
-    section + section { margin-top: 72px; border-top: 1px solid var(--line); }
-    .section-head { display: grid; grid-template-columns: 82px minmax(0,1fr); gap: 20px; align-items: baseline; margin-bottom: 34px; }
-    .section-no { color: var(--accent); font-size: 12px; font-weight: 800; letter-spacing: .13em; }
-    h2 { margin: 0; font: 500 clamp(30px, 4vw, 46px)/1.15 var(--serif); letter-spacing: -.025em; }
-    h3 { margin: 0 0 10px; font: 600 21px/1.35 var(--serif); }
+
+    main { padding: 0 clamp(20px, 8vw, 108px) clamp(64px, 9vw, 104px); }
+    section { padding-top: clamp(52px, 7vw, 76px); scroll-margin-top: 40px; }
+    section + section { margin-top: clamp(52px, 7vw, 76px); border-top: 1px dashed var(--ink-60); }
+
+    .section-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 18px; margin-bottom: 32px; }
+    .section-no {
+      font: 800 clamp(46px, 5.6vw, 72px)/.9 var(--sans);
+      color: transparent; -webkit-text-stroke: 1.5px var(--ink);
+    }
+    h2 {
+      margin: 0;
+      display: inline-block;
+      padding: 4px 14px 6px;
+      background: var(--ink); color: var(--paper);
+      font: 600 clamp(22px, 3vw, 34px)/1.2 var(--serif);
+      transform: rotate(-1deg);
+    }
+    h3 { margin: 0 0 10px; font: 600 19px/1.35 var(--serif); }
     p { margin: 0 0 16px; }
-    .prose { max-width: 780px; margin-left: 102px; }
-    .prose > p:first-child { font-size: 18px; }
+    .prose { max-width: 780px; }
+    .prose > p { font-size: 16.5px; }
 
-    .layers { display: grid; gap: 12px; margin: 34px 0 0 102px; }
-    .layer { display: grid; grid-template-columns: 62px 1fr 1.25fr; gap: 22px; align-items: center; padding: 23px 26px; background: #f8f4ed; border-left: 4px solid var(--accent); }
-    .layer:nth-child(2) { border-color: var(--teal); }
-    .layer:nth-child(3) { border-color: var(--gold); }
-    .layer-no { color: var(--muted); font: 500 30px/1 var(--serif); }
-    .layer strong { font: 600 19px/1.3 var(--serif); }
-    .layer p { margin: 0; color: var(--muted); font-size: 14px; }
+    .layers { display: grid; gap: 14px; margin-top: 32px; }
+    .layer {
+      display: grid; grid-template-columns: 64px 1fr 1.25fr; gap: 20px; align-items: center;
+      padding: 22px 26px;
+      background: var(--paper);
+      border: 1px dashed var(--ink);
+    }
+    .layer:nth-child(odd) { transform: rotate(-.3deg); }
+    .layer:nth-child(even) { transform: rotate(.3deg); }
+    .layer-no {
+      font: 800 30px/1 var(--mono);
+      color: transparent; -webkit-text-stroke: 1px var(--ink);
+    }
+    .layer strong { font: 600 18px/1.3 var(--serif); }
+    .layer p { margin: 0; font-size: 13.5px; opacity: .8; }
+    .layer p b { color: var(--ink); }
 
-    .question-grid, .method-grid, .takeaway-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin: 34px 0 0 102px; }
-    .card { padding: 24px; background: #f8f4ed; border-top: 3px solid var(--accent); }
-    .card:nth-child(2) { border-color: var(--teal); }
-    .card:nth-child(3) { border-color: var(--gold); }
-    .card .label { display: block; margin-bottom: 9px; color: var(--accent); font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
-    .card:nth-child(2) .label { color: var(--teal); }
-    .card:nth-child(3) .label { color: var(--gold); }
-    .card p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.65; }
+    .question-grid, .method-grid, .takeaway-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px; }
+    .card {
+      position: relative;
+      padding: 24px 20px 20px;
+      background: var(--paper);
+      border: 1px dashed var(--ink);
+    }
+    .card::before {
+      content: "✂";
+      position: absolute; top: -13px; left: 10px;
+      padding: 0 6px; background: var(--paper);
+      color: var(--ink); font-size: 14px;
+    }
+    .card:nth-child(1) { transform: rotate(-.5deg); }
+    .card:nth-child(2) { transform: rotate(.4deg); }
+    .card:nth-child(3) { transform: rotate(-.3deg); }
+    .card .label {
+      display: block; margin-bottom: 9px;
+      color: var(--ink);
+      font: 800 10px/1.5 var(--mono); letter-spacing: .2em; text-transform: uppercase;
+    }
+    .card .label::before { content: "■ "; }
+    .card p { margin: 0; font-size: 13px; line-height: 1.7; opacity: .8; }
 
-    .mode-table { margin: 34px 0 0 102px; border: 1px solid var(--line); }
-    .mode-row { display: grid; grid-template-columns: 1fr 1.45fr 1.1fr; }
-    .mode-row + .mode-row { border-top: 1px solid var(--line); }
-    .mode-row > div { padding: 18px 20px; }
-    .mode-row > div + div { border-left: 1px solid var(--line); }
-    .mode-row.head { color: #fff; background: #1a3139; font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
-    .mode-row:not(.head) > div:first-child { font-family: var(--serif); font-weight: 600; }
+    .mode-table { margin-top: 32px; border: 2px solid var(--ink); box-shadow: 7px 7px 0 var(--ink-18); }
+    .mode-row { display: grid; grid-template-columns: 1fr 1.45fr 1.1fr; background: var(--paper); }
+    .mode-row + .mode-row { border-top: 1px dashed var(--ink-60); }
+    .mode-row > div { padding: 18px 20px; font-size: 13.5px; }
+    .mode-row > div + div { border-left: 1px dashed var(--ink-60); }
+    .mode-row.head {
+      color: var(--paper); background: var(--ink);
+      font: 800 10.5px/1.5 var(--mono); letter-spacing: .18em; text-transform: uppercase;
+    }
+    .mode-row:not(.head) > div:first-child { font: 600 15px/1.5 var(--serif); color: var(--ink); }
 
-    .architecture { display: grid; grid-template-columns: 1fr 64px 1fr; gap: 14px; align-items: stretch; margin: 34px 0 0 102px; }
-    .architecture-card { padding: 28px; background: #172c34; color: #f8f2e8; }
-    .architecture-card:last-child { background: var(--accent); }
-    .architecture-card h3 { color: #fff; }
-    .architecture-card p { color: rgba(255,255,255,.78); }
-    .architecture-card ul { margin: 15px 0 0; padding-left: 18px; }
-    .architecture-card li + li { margin-top: 8px; }
-    .arrow { display: grid; place-items: center; color: var(--accent); font-size: 34px; }
+    .architecture { display: grid; grid-template-columns: 1fr 64px 1fr; gap: 14px; align-items: stretch; margin-top: 32px; }
+    .architecture-card { padding: 28px; background: var(--black); color: var(--paper); }
+    .architecture-card:last-child { background: var(--ink); }
+    .architecture-card h3 { color: var(--paper); }
+    .architecture-card p { opacity: .82; font-size: 13.5px; }
+    .architecture-card ul { margin: 14px 0 0; padding-left: 18px; font-size: 13.5px; }
+    .architecture-card li::marker { color: var(--paper); }
+    .architecture-card li + li { margin-top: 7px; }
+    .arrow { display: grid; place-items: center; color: var(--ink); font-size: 34px; }
 
-    .alignment { margin: 24px 0 0 102px; padding: 28px; background: var(--accent-soft); border-left: 4px solid var(--accent); }
-    .alignment ol { margin: 14px 0 0; padding-left: 22px; }
-    .alignment li + li { margin-top: 9px; }
+    .alignment {
+      margin-top: 22px; padding: 26px 28px;
+      background: var(--ink-07);
+      border: 1px dashed var(--ink);
+      font-size: 14px;
+      transform: rotate(-.3deg);
+    }
+    .alignment strong { color: var(--ink); }
+    .alignment ol { margin: 12px 0 0; padding-left: 22px; }
+    .alignment li::marker { color: var(--ink); font-weight: 700; }
+    .alignment li + li { margin-top: 8px; }
 
-    .benchmark-groups { display: grid; grid-template-columns: repeat(2,1fr); gap: 16px; margin: 32px 0 0 102px; }
-    .benchmark-group { padding: 24px; border: 1px solid var(--line); }
-    .benchmark-group h3 { color: var(--teal); }
-    .benchmark-group p { margin: 0; color: var(--muted); font-size: 14px; }
-    .metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 18px 0 0 102px; }
-    .metric { padding: 24px; background: var(--teal-soft); }
-    .metric:last-child { background: var(--accent-soft); }
-    .metric p { margin: 0; color: var(--muted); }
+    .benchmark-groups { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 30px; }
+    .benchmark-group { padding: 24px; border: 1px solid var(--ink); background: var(--paper); }
+    .benchmark-group h3 { color: var(--ink); }
+    .benchmark-group h3::before { content: "■ "; font-family: var(--mono); font-size: 12px; }
+    .benchmark-group p { margin: 0; font-size: 13px; line-height: 1.75; opacity: .82; }
+    .metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
+    .metric { padding: 24px; background: var(--ink-07); border: 1px dashed var(--ink-60); }
+    .metric h3 { color: var(--ink); }
+    .metric p { margin: 0; font-size: 13px; line-height: 1.75; opacity: .82; }
 
-    .takeaway-grid .card { min-height: 190px; }
-    .source-note { margin: 44px 0 0 102px; padding-top: 22px; color: var(--muted); border-top: 1px dashed var(--line); font-size: 13px; }
-    footer { display: flex; justify-content: space-between; gap: 24px; padding: 28px clamp(28px, 9vw, 118px); color: var(--muted); background: #f8f4ed; border-top: 1px solid var(--line); font-size: 12px; }
+    .takeaway-grid .card { min-height: 180px; }
+    .takeaway-grid .card .label { font-size: 15px; letter-spacing: .1em; }
+    .takeaway-grid .card .label::before { content: ""; }
+    .takeaway-grid .card .label { color: transparent; -webkit-text-stroke: .8px var(--ink); font: 800 26px/1 var(--mono); }
+
+    .source-note {
+      margin-top: 44px; padding-top: 20px;
+      color: var(--ink-60);
+      border-top: 1px dashed var(--ink-60);
+      font: 600 11px/1.8 var(--mono); letter-spacing: .1em;
+    }
+
+    footer {
+      display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px;
+      padding: 26px clamp(20px, 6vw, 84px);
+      color: var(--paper); background: var(--black);
+      border-top: 1px solid var(--ink);
+      font: 600 10.5px/1.8 var(--mono); letter-spacing: .2em; text-transform: uppercase;
+    }
+    footer a { color: var(--paper); text-decoration: none; border-bottom: 1px dashed rgba(255,253,254,.5); }
+    footer a:hover { background: var(--paper); color: var(--black); }
 
     @media (max-width: 820px) {
-      .shell { width: min(100%,720px); margin: 0 auto; border-top: 0; border-bottom: 0; }
-      .prose, .layers, .question-grid, .method-grid, .takeaway-grid, .mode-table, .architecture, .alignment, .benchmark-groups, .metrics, .source-note { margin-left: 0; }
       .question-grid, .method-grid, .takeaway-grid { grid-template-columns: 1fr; }
       .layer { grid-template-columns: 48px 1fr; }
       .layer p { grid-column: 2; }
@@ -145,121 +249,132 @@
       .benchmark-groups, .metrics { grid-template-columns: 1fr; }
     }
     @media (max-width: 560px) {
-      .section-head { grid-template-columns: 1fr; gap: 4px; }
       .mode-row { grid-template-columns: 1fr; }
       .mode-row.head { display: none; }
-      .mode-row > div + div { border-left: 0; border-top: 1px dashed var(--line); }
-      footer { flex-direction: column; }
+      .mode-row > div + div { border-left: 0; border-top: 1px dashed var(--ink-60); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .ticker-track { animation: none; }
     }
     @media print {
-      body { background: #fff; }
-      .shell { width: 100%; margin: 0; border: 0; box-shadow: none; }
-      nav { position: static; }
+      .grain, .ticker { display: none; }
       section, .card, .architecture-card { break-inside: avoid; }
     }
   </style>
 </head>
 <body>
-  <div class="shell">
-    <nav aria-label="Article navigation">
-      <a class="wordmark" href="index.html">Serena Song</a>
-      <a class="back" href="index.html#writing">← Back to homepage</a>
-    </nav>
+  <div class="grain" aria-hidden="true"></div>
 
-    <header>
-      <p class="eyebrow">Selected Writing · LLM Evaluation</p>
-      <h1>A Practical Framework for LLM Evaluation<span class="cn-title" lang="zh-CN">模型评测：从模型能力到真实应用的系统化闭环</span></h1>
-      <p class="dek">A concise, product-oriented framework for deciding what to evaluate, how to evaluate it, and when an AI system is ready for real users.</p>
-      <div class="byline"><span>By Serena Song (宋月)</span><span>Original article in Chinese</span><span>July 2026</span></div>
-      <div class="thesis">A useful evaluation system is not a leaderboard. It is a continuous loop from goals and definitions to methods, evidence, release decisions, and reusable organizational knowledge.</div>
-    </header>
-
-    <main>
-      <section id="scope">
-        <div class="section-head"><span class="section-no">01</span><h2>Three levels of evaluation</h2></div>
-        <div class="prose"><p>Evaluation should follow AI capability from its raw foundation to its final product form. Each level asks a different question, requires different evidence, and supports a different decision.</p></div>
-        <div class="layers">
-          <div class="layer"><span class="layer-no">01</span><strong>Model architecture</strong><p><b>Can the AI do it?</b> Measure raw intelligence: knowledge, reasoning, language, long-context recall, hallucination, and safety before tools or task-specific optimization.</p></div>
-          <div class="layer"><span class="layer-no">02</span><strong>Capability engineering</strong><p><b>Can intelligence become a stable function?</b> Evaluate task performance, RAG retrieval, tool use, robustness, latency, and failure handling.</p></div>
-          <div class="layer"><span class="layer-no">03</span><strong>Application &amp; scenario</strong><p><b>Does it create user and business value?</b> Evaluate task completion, usability, satisfaction, retention, cost per task, and actual workflow outcomes.</p></div>
-        </div>
-      </section>
-
-      <section id="workflow">
-        <div class="section-head"><span class="section-no">02</span><h2>The evaluation workflow</h2></div>
-        <div class="prose"><p>A complex, open-ended question becomes actionable when it is decomposed into three decisions: what matters, how evidence will be produced, and what threshold counts as success.</p></div>
-        <div class="question-grid">
-          <article class="card"><span class="label">What to evaluate</span><h3>Dimensions &amp; modes</h3><p>Define the target capability, evaluation scope, task setting, and whether the goal is professional benchmarking, comparison, or practical acceptance.</p></article>
-          <article class="card"><span class="label">How to evaluate</span><h3>Methods &amp; data</h3><p>Combine objective automation, human review, and LLM-based judging with public benchmarks, custom test sets, or third-party data.</p></article>
-          <article class="card"><span class="label">How good is enough</span><h3>Metrics &amp; baselines</h3><p>Choose measurable criteria and compare against human performance, industry state of the art, or explicit product release requirements.</p></article>
-        </div>
-      </section>
-
-      <section id="modes">
-        <div class="section-head"><span class="section-no">03</span><h2>Match the mode to the lifecycle</h2></div>
-        <div class="prose"><p>The article distinguishes three complementary evaluation modes. Their importance changes as a model moves from research to productization and delivery.</p></div>
-        <div class="mode-table" role="table" aria-label="Evaluation modes">
-          <div class="mode-row head" role="row"><div>Mode</div><div>Primary question</div><div>Best used for</div></div>
-          <div class="mode-row" role="row"><div>Professional</div><div>Does the model meet a standardized capability baseline?</div><div>Research, capability analysis, pre-iteration checks</div></div>
-          <div class="mode-row" role="row"><div>Comparative</div><div>Where does a model or version outperform or underperform alternatives?</div><div>Model selection, competitive analysis, product positioning</div></div>
-          <div class="mode-row" role="row"><div>Practical</div><div>Is the system useful, stable, safe, and understandable in a real workflow?</div><div>Pre-launch acceptance and continuous product improvement</div></div>
-        </div>
-      </section>
-
-      <section id="methods">
-        <div class="section-head"><span class="section-no">04</span><h2>Use multiple evaluation methods</h2></div>
-        <div class="method-grid">
-          <article class="card"><span class="label">Objective</span><h3>Automated metrics</h3><p>Compare outputs with reference answers using deterministic rules or metrics such as accuracy, F1, BLEU, and ROUGE. Best for structured tasks with clear ground truth.</p></article>
-          <article class="card"><span class="label">Subjective</span><h3>Human evaluation</h3><p>Experts judge fluency, logic, relevance, consistency, and user experience. This remains essential for open generation and domain-sensitive quality.</p></article>
-          <article class="card"><span class="label">Scalable</span><h3>LLM-as-a-Judge</h3><p>A stronger or specialized model scores outputs against explicit rubrics. Reliability improves through examples, structured output, repeated judging, voting, and human calibration.</p></article>
-        </div>
-        <div class="alignment"><strong>Important limitation:</strong> LLM judges can exhibit length, position, and style bias. A robust system combines model judging with human expert review instead of treating automated scores as ground truth.</div>
-      </section>
-
-      <section id="automation">
-        <div class="section-head"><span class="section-no">05</span><h2>Evaluator + aggregator</h2></div>
-        <div class="prose"><p>The article's most product-relevant contribution is a two-part automated architecture. Individual evaluators produce evidence; an aggregator turns that evidence into a decision that can be checked against people and real behavior.</p></div>
-        <div class="architecture">
-          <article class="architecture-card"><h3>Evaluators</h3><p>Score each quality dimension and explain the score.</p><ul><li>Prompt + LLM for flexible rubrics</li><li>Fine-tuned judges for stable, specialized standards</li><li>Rule systems for precise quantitative checks</li><li>Test system prompt, model, and tools as a combined environment</li></ul></article>
-          <div class="arrow" aria-hidden="true">→</div>
-          <article class="architecture-card"><h3>Aggregator</h3><p>Map many automated signals to a smaller set of trusted release indicators.</p><ul><li>Align machine scores with human labels</li><li>Fit category-specific weights or data-driven models</li><li>Support Good / Same / Bad and release decisions</li><li>Recalibrate as products and users change</li></ul></article>
-        </div>
-        <div class="alignment">
-          <strong>The alignment loop</strong>
-          <ol>
-            <li>Calculate Pearson or Spearman correlation between machine metrics and human evaluation.</li>
-            <li>Select the machine signals most predictive of each human quality dimension.</li>
-            <li>Use category-aware weighting, regression, decision trees, or clustering to fit final scores.</li>
-            <li>Monitor correlation over time and replace evaluators when alignment declines.</li>
-          </ol>
-        </div>
-      </section>
-
-      <section id="data">
-        <div class="section-head"><span class="section-no">06</span><h2>Datasets and metrics</h2></div>
-        <div class="prose"><p>Public benchmarks enable standardized comparison, while custom datasets capture the realities of a specific product. Strong evaluation programs use both.</p></div>
-        <div class="benchmark-groups">
-          <article class="benchmark-group"><h3>Public benchmarks</h3><p>Knowledge and Chinese capability: MMLU, C-Eval, CMMLU. Reasoning and general ability: HellaSwag, ARC, OpenBookQA, ANLI, BBH, AGIEval. Math, dialogue, code, and safety: GSM8K, MATH, MT-Bench, HumanEval, MBPP, TruthfulQA, PromptBench.</p></article>
-          <article class="benchmark-group"><h3>Custom evaluation sets</h3><p>Start from product requirements, collect representative and difficult cases, clean and extend the data, define expert labels, and preserve a small golden set for calibration and regression testing.</p></article>
-        </div>
-        <div class="metrics">
-          <article class="metric"><h3>Objective indicators</h3><p>Accuracy, precision, recall, F1, BLEU, ROUGE, task completion, retrieval accuracy, latency, error rate, and cost per task.</p></article>
-          <article class="metric"><h3>Subjective indicators</h3><p>Fluency, logic, relevance, consistency, usefulness, safety, user experience, expert preference, and satisfaction.</p></article>
-        </div>
-      </section>
-
-      <section id="takeaways">
-        <div class="section-head"><span class="section-no">07</span><h2>Core takeaways</h2></div>
-        <div class="takeaway-grid">
-          <article class="card"><span class="label">01</span><h3>Evaluate the system, not only the model</h3><p>Application quality emerges from the interaction of prompts, models, tools, data, and user workflows.</p></article>
-          <article class="card"><span class="label">02</span><h3>Connect scores to real outcomes</h3><p>Automated evaluation becomes meaningful only when it predicts expert judgment or observable user and business behavior.</p></article>
-          <article class="card"><span class="label">03</span><h3>Treat evaluation as infrastructure</h3><p>A reusable SOP, golden dataset, regression process, and feedback loop let evaluation drive continuous model and product evolution.</p></article>
-        </div>
-        <p class="source-note">This page is an edited public summary of Serena Song's Chinese article “模型评测.” Internal platform links, internal screenshots, and organization-specific implementation details have intentionally been omitted.</p>
-      </section>
-    </main>
-
-    <footer><span>Serena Song · 宋月 · Peking University</span><span>Selected Writing · July 2026</span></footer>
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track">
+      <span>写作 WRITING ✕ 模型评测 LLM EVALUATION ✕ 宋月 SERENA SONG ✕ 腾讯 KM TENCENT KM ✕ 从模型能力到真实应用 ✕ EVALUATOR + AGGREGATOR ✕&nbsp;</span>
+      <span>写作 WRITING ✕ 模型评测 LLM EVALUATION ✕ 宋月 SERENA SONG ✕ 腾讯 KM TENCENT KM ✕ 从模型能力到真实应用 ✕ EVALUATOR + AGGREGATOR ✕&nbsp;</span>
+    </div>
   </div>
+
+  <nav aria-label="Article navigation">
+    <a class="wordmark" href="index.html">宋月 Serena Song</a>
+    <a class="stamp-btn" href="index.html#writing">← Back 返回首页</a>
+  </nav>
+
+  <header>
+    <p class="eyebrow">Selected Writing · LLM Evaluation · 精选写作</p>
+    <h1>A Practical Framework for LLM Evaluation<span class="cn-title" lang="zh-CN">模型评测：从模型能力到真实应用的系统化闭环</span></h1>
+    <p class="dek">A concise, product-oriented framework for deciding what to evaluate, how to evaluate it, and when an AI system is ready for real users.</p>
+    <div class="byline"><span>By Serena Song 宋月</span><span>Original article in Chinese</span><span>July 2026</span></div>
+    <div class="thesis">A useful evaluation system is not a leaderboard. It is a continuous loop from goals and definitions to methods, evidence, release decisions, and reusable organizational knowledge.</div>
+  </header>
+
+  <main>
+    <section id="scope">
+      <div class="section-head"><span class="section-no" aria-hidden="true">01</span><h2>Three levels of evaluation</h2></div>
+      <div class="prose"><p>Evaluation should follow AI capability from its raw foundation to its final product form. Each level asks a different question, requires different evidence, and supports a different decision.</p></div>
+      <div class="layers">
+        <div class="layer"><span class="layer-no">01</span><strong>Model architecture</strong><p><b>Can the AI do it?</b> Measure raw intelligence: knowledge, reasoning, language, long-context recall, hallucination, and safety before tools or task-specific optimization.</p></div>
+        <div class="layer"><span class="layer-no">02</span><strong>Capability engineering</strong><p><b>Can intelligence become a stable function?</b> Evaluate task performance, RAG retrieval, tool use, robustness, latency, and failure handling.</p></div>
+        <div class="layer"><span class="layer-no">03</span><strong>Application &amp; scenario</strong><p><b>Does it create user and business value?</b> Evaluate task completion, usability, satisfaction, retention, cost per task, and actual workflow outcomes.</p></div>
+      </div>
+    </section>
+
+    <section id="workflow">
+      <div class="section-head"><span class="section-no" aria-hidden="true">02</span><h2>The evaluation workflow</h2></div>
+      <div class="prose"><p>A complex, open-ended question becomes actionable when it is decomposed into three decisions: what matters, how evidence will be produced, and what threshold counts as success.</p></div>
+      <div class="question-grid">
+        <article class="card"><span class="label">What to evaluate</span><h3>Dimensions &amp; modes</h3><p>Define the target capability, evaluation scope, task setting, and whether the goal is professional benchmarking, comparison, or practical acceptance.</p></article>
+        <article class="card"><span class="label">How to evaluate</span><h3>Methods &amp; data</h3><p>Combine objective automation, human review, and LLM-based judging with public benchmarks, custom test sets, or third-party data.</p></article>
+        <article class="card"><span class="label">How good is enough</span><h3>Metrics &amp; baselines</h3><p>Choose measurable criteria and compare against human performance, industry state of the art, or explicit product release requirements.</p></article>
+      </div>
+    </section>
+
+    <section id="modes">
+      <div class="section-head"><span class="section-no" aria-hidden="true">03</span><h2>Match the mode to the lifecycle</h2></div>
+      <div class="prose"><p>The article distinguishes three complementary evaluation modes. Their importance changes as a model moves from research to productization and delivery.</p></div>
+      <div class="mode-table" role="table" aria-label="Evaluation modes">
+        <div class="mode-row head" role="row"><div>Mode</div><div>Primary question</div><div>Best used for</div></div>
+        <div class="mode-row" role="row"><div>Professional</div><div>Does the model meet a standardized capability baseline?</div><div>Research, capability analysis, pre-iteration checks</div></div>
+        <div class="mode-row" role="row"><div>Comparative</div><div>Where does a model or version outperform or underperform alternatives?</div><div>Model selection, competitive analysis, product positioning</div></div>
+        <div class="mode-row" role="row"><div>Practical</div><div>Is the system useful, stable, safe, and understandable in a real workflow?</div><div>Pre-launch acceptance and continuous product improvement</div></div>
+      </div>
+    </section>
+
+    <section id="methods">
+      <div class="section-head"><span class="section-no" aria-hidden="true">04</span><h2>Use multiple evaluation methods</h2></div>
+      <div class="method-grid">
+        <article class="card"><span class="label">Objective</span><h3>Automated metrics</h3><p>Compare outputs with reference answers using deterministic rules or metrics such as accuracy, F1, BLEU, and ROUGE. Best for structured tasks with clear ground truth.</p></article>
+        <article class="card"><span class="label">Subjective</span><h3>Human evaluation</h3><p>Experts judge fluency, logic, relevance, consistency, and user experience. This remains essential for open generation and domain-sensitive quality.</p></article>
+        <article class="card"><span class="label">Scalable</span><h3>LLM-as-a-Judge</h3><p>A stronger or specialized model scores outputs against explicit rubrics. Reliability improves through examples, structured output, repeated judging, voting, and human calibration.</p></article>
+      </div>
+      <div class="alignment"><strong>Important limitation:</strong> LLM judges can exhibit length, position, and style bias. A robust system combines model judging with human expert review instead of treating automated scores as ground truth.</div>
+    </section>
+
+    <section id="automation">
+      <div class="section-head"><span class="section-no" aria-hidden="true">05</span><h2>Evaluator + aggregator</h2></div>
+      <div class="prose"><p>The article's most product-relevant contribution is a two-part automated architecture. Individual evaluators produce evidence; an aggregator turns that evidence into a decision that can be checked against people and real behavior.</p></div>
+      <div class="architecture">
+        <article class="architecture-card"><h3>Evaluators</h3><p>Score each quality dimension and explain the score.</p><ul><li>Prompt + LLM for flexible rubrics</li><li>Fine-tuned judges for stable, specialized standards</li><li>Rule systems for precise quantitative checks</li><li>Test system prompt, model, and tools as a combined environment</li></ul></article>
+        <div class="arrow" aria-hidden="true">→</div>
+        <article class="architecture-card"><h3>Aggregator</h3><p>Map many automated signals to a smaller set of trusted release indicators.</p><ul><li>Align machine scores with human labels</li><li>Fit category-specific weights or data-driven models</li><li>Support Good / Same / Bad and release decisions</li><li>Recalibrate as products and users change</li></ul></article>
+      </div>
+      <div class="alignment">
+        <strong>The alignment loop</strong>
+        <ol>
+          <li>Calculate Pearson or Spearman correlation between machine metrics and human evaluation.</li>
+          <li>Select the machine signals most predictive of each human quality dimension.</li>
+          <li>Use category-aware weighting, regression, decision trees, or clustering to fit final scores.</li>
+          <li>Monitor correlation over time and replace evaluators when alignment declines.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="data">
+      <div class="section-head"><span class="section-no" aria-hidden="true">06</span><h2>Datasets and metrics</h2></div>
+      <div class="prose"><p>Public benchmarks enable standardized comparison, while custom datasets capture the realities of a specific product. Strong evaluation programs use both.</p></div>
+      <div class="benchmark-groups">
+        <article class="benchmark-group"><h3>Public benchmarks</h3><p>Knowledge and Chinese capability: MMLU, C-Eval, CMMLU. Reasoning and general ability: HellaSwag, ARC, OpenBookQA, ANLI, BBH, AGIEval. Math, dialogue, code, and safety: GSM8K, MATH, MT-Bench, HumanEval, MBPP, TruthfulQA, PromptBench.</p></article>
+        <article class="benchmark-group"><h3>Custom evaluation sets</h3><p>Start from product requirements, collect representative and difficult cases, clean and extend the data, define expert labels, and preserve a small golden set for calibration and regression testing.</p></article>
+      </div>
+      <div class="metrics">
+        <article class="metric"><h3>Objective indicators</h3><p>Accuracy, precision, recall, F1, BLEU, ROUGE, task completion, retrieval accuracy, latency, error rate, and cost per task.</p></article>
+        <article class="metric"><h3>Subjective indicators</h3><p>Fluency, logic, relevance, consistency, usefulness, safety, user experience, expert preference, and satisfaction.</p></article>
+      </div>
+    </section>
+
+    <section id="takeaways">
+      <div class="section-head"><span class="section-no" aria-hidden="true">07</span><h2>Core takeaways</h2></div>
+      <div class="takeaway-grid">
+        <article class="card"><span class="label">01</span><h3>Evaluate the system, not only the model</h3><p>Application quality emerges from the interaction of prompts, models, tools, data, and user workflows.</p></article>
+        <article class="card"><span class="label">02</span><h3>Connect scores to real outcomes</h3><p>Automated evaluation becomes meaningful only when it predicts expert judgment or observable user and business behavior.</p></article>
+        <article class="card"><span class="label">03</span><h3>Treat evaluation as infrastructure</h3><p>A reusable SOP, golden dataset, regression process, and feedback loop let evaluation drive continuous model and product evolution.</p></article>
+      </div>
+      <p class="source-note">This page is an edited public summary of Serena Song's Chinese article “模型评测.” Internal platform links, internal screenshots, and organization-specific implementation details have intentionally been omitted.</p>
+    </section>
+  </main>
+
+  <footer>
+    <span>© 2026 宋月 Serena Song · Peking University</span>
+    <span><a href="index.html">首页 HOME</a>&nbsp;&nbsp;·&nbsp;&nbsp;<a href="https://github.com/serenasonggg-ship-it">GitHub</a></span>
+    <span>Selected Writing · July 2026 · 皮下印刷</span>
+  </footer>
 </body>
 </html>
