@@ -27,6 +27,8 @@ export type Project = {
   stats?: { value: string; label: string }[];
   tags: string[];
   visual: ProjectVisual;
+  badge?: string;
+  href?: string;
 };
 
 export type Achievement = {
@@ -58,6 +60,7 @@ export type Content = {
   };
   projects: {
     heading: [string, string];
+    more: string;
     items: Project[];
   };
   achievements: {
@@ -95,7 +98,7 @@ export const content: Record<Lang, Content> = {
           highlights: [
             {
               label: '轨迹分析',
-              headline: '从 0 到 1 搭建 Agent 轨迹分析平台',
+              headline: '从 0 到 1 独立开发 Agent 轨迹分析平台',
               detail: '覆盖轨迹可视化、多轮评测、LLM-as-a-Judge 失败模式挖掘与数据回流，已接入 CodeBuddy、WorkBuddy 等产品线。',
             },
             {
@@ -175,10 +178,13 @@ export const content: Record<Lang, Content> = {
     },
     projects: {
       heading: ['我的', '项目'],
+      more: '查看详情',
       items: [
         {
           name: 'Agent 轨迹分析平台',
-          meta: '腾讯 TEG · 2026 — 至今',
+          badge: '独立开发',
+          href: '/projects/agent-trajectory/',
+          meta: '腾讯 TEG · 2026 — 至今 · 从设计到上线由我一人完成',
           summary: '把每一条 Agent 轨迹，变成可读、可比、可归因的证据。',
           points: [
             '解析 system prompt、span 结构、token 用量与工具调用，逐步还原 Agent 的决策过程',
@@ -299,7 +305,7 @@ export const content: Record<Lang, Content> = {
           highlights: [
             {
               label: 'Trajectory',
-              headline: 'Agent trajectory analysis platform, built from scratch',
+              headline: 'Agent trajectory analysis platform, built solo from scratch',
               detail: 'Covers trajectory visualization, multi-turn evaluation, LLM-as-a-Judge failure-mode mining and data feedback; adopted by CodeBuddy, WorkBuddy and more.',
             },
             {
@@ -379,10 +385,13 @@ export const content: Record<Lang, Content> = {
     },
     projects: {
       heading: ['Selected', 'projects'],
+      more: 'Read the case study',
       items: [
         {
           name: 'Agent Trajectory Analysis Platform',
-          meta: 'Tencent TEG · 2026 — Present',
+          badge: 'Built solo',
+          href: '/projects/agent-trajectory/',
+          meta: 'Tencent TEG · 2026 — Present · Designed, built and shipped end to end by me',
           summary: 'Turning every agent trajectory into evidence you can read, compare and attribute.',
           points: [
             'Parses system prompts, span structure, token usage and tool calls to replay each decision step by step',

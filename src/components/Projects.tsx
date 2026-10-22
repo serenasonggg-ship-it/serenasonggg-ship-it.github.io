@@ -1,3 +1,4 @@
+import { ArrowRight } from 'lucide-react';
 import type { Content, Lang, Project } from '../data';
 import { useRevealOnce } from '../hooks';
 import ProjectVisualView from './ProjectVisuals';
@@ -18,7 +19,13 @@ export default function Projects({ t, lang, reducedMotion }: Props) {
 
         <div className="mt-20 space-y-24 lg:space-y-32">
           {t.projects.items.map((project, i) => (
-            <ProjectRow key={project.name} project={project} index={i} reducedMotion={reducedMotion} />
+            <ProjectRow
+              key={project.name}
+              project={project}
+              index={i}
+              more={t.projects.more}
+              reducedMotion={reducedMotion}
+            />
           ))}
         </div>
       </div>
@@ -26,7 +33,17 @@ export default function Projects({ t, lang, reducedMotion }: Props) {
   );
 }
 
-function ProjectRow({ project, index, reducedMotion }: { project: Project; index: number; reducedMotion: boolean }) {
+function ProjectRow({
+  project,
+  index,
+  more,
+  reducedMotion,
+}: {
+  project: Project;
+  index: number;
+  more: string;
+  reducedMotion: boolean;
+}) {
   const { ref, visible } = useRevealOnce<HTMLElement>(0.25);
   const shown = reducedMotion || visible;
   const flipped = index % 2 === 1;
@@ -48,7 +65,12 @@ function ProjectRow({ project, index, reducedMotion }: { project: Project; index
 
       <div>
         <p className="text-white text-xs font-medium tracking-[0.3em]">{String(index + 1).padStart(2, '0')}</p>
-        <h3 className="mt-3 text-white text-2xl sm:text-3xl font-semibold tracking-tight">{project.name}</h3>
+        <div className="mt-3 flex flex-wrap items-center gap-3">
+          <h3 className="text-white text-2xl sm:text-3xl font-semibold tracking-tight">{project.name}</h3>
+          {project.badge && (
+            <span className="bg-white text-black text-xs font-medium px-2.5 py-1 rounded-sm">{project.badge}</span>
+          )}
+        </div>
         <p className="mt-2 text-white/70 text-sm font-light">{project.meta}</p>
 
         <p className="mt-6 pl-4 border-l-2 border-white text-white text-base leading-relaxed font-light">
@@ -82,6 +104,16 @@ function ProjectRow({ project, index, reducedMotion }: { project: Project; index
             </li>
           ))}
         </ul>
+
+        {project.href && (
+          <a
+            href={project.href}
+            className="mt-8 inline-flex items-center gap-2 border border-white text-white text-sm font-light px-5 py-2.5 rounded-sm hover:bg-white hover:text-black transition-colors"
+          >
+            {more}
+            <ArrowRight className="w-4 h-4" strokeWidth={1.5} />
+          </a>
+        )}
       </div>
     </article>
   );
