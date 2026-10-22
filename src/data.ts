@@ -52,7 +52,7 @@ export type Content = {
   };
 };
 
-export const email = 'you@example.com';
+export const email = 'xxsongtz@163.com';
 
 export const content: Record<Lang, Content> = {
   zh: {
