@@ -23,6 +23,7 @@ export default function Navbar({ t, email, onToggleLang }: Props) {
   const links = [
     { label: t.nav.about, href: '#about' },
     { label: t.nav.timeline, href: '#timeline' },
+    { label: t.nav.projects, href: '#projects' },
     { label: t.nav.achievements, href: '#achievements' },
     { label: t.nav.contact, href: `mailto:${email}` },
   ];

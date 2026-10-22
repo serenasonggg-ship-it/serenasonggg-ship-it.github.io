@@ -6,6 +6,7 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Timeline from './components/Timeline';
 import OtherExperience from './components/OtherExperience';
+import Projects from './components/Projects';
 import Achievements from './components/Achievements';
 
 function initialLang(): Lang {
@@ -40,6 +41,7 @@ export default function App() {
         <Hero ref={heroRef} t={t} lang={lang} />
         <Timeline t={t} lang={lang} reducedMotion={reducedMotion} />
         <OtherExperience t={t} />
+        <Projects t={t} lang={lang} reducedMotion={reducedMotion} />
         <Achievements t={t} lang={lang} email={email} />
         <footer className="px-6 md:px-10 lg:px-14 py-8 flex justify-between text-white/40 text-xs font-light">
           <span>

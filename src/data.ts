@@ -17,6 +17,18 @@ export type OtherExperience = {
   tags?: string[];
 };
 
+export type ProjectVisual = 'trajectory' | 'pipeline' | 'finbench' | 'spaceact';
+
+export type Project = {
+  name: string;
+  meta: string;
+  summary: string;
+  points: string[];
+  stats?: { value: string; label: string }[];
+  tags: string[];
+  visual: ProjectVisual;
+};
+
 export type Achievement = {
   metric: string;
   title: string;
@@ -26,7 +38,7 @@ export type Achievement = {
 
 export type Content = {
   pageTitle: string;
-  nav: { about: string; timeline: string; achievements: string; contact: string };
+  nav: { about: string; timeline: string; projects: string; achievements: string; contact: string };
   langToggle: string;
   hero: {
     greeting: string;
@@ -44,6 +56,10 @@ export type Content = {
     heading: string;
     items: OtherExperience[];
   };
+  projects: {
+    heading: [string, string];
+    items: Project[];
+  };
   achievements: {
     heading: [string, string];
     summary: string;
@@ -57,7 +73,7 @@ export const email = 'xxsongtz@163.com';
 export const content: Record<Lang, Content> = {
   zh: {
     pageTitle: '宋月 — 个人主页',
-    nav: { about: '关于我', timeline: '经历', achievements: '成果', contact: '联系我' },
+    nav: { about: '关于我', timeline: '经历', projects: '项目', achievements: '成果', contact: '联系我' },
     langToggle: 'EN',
     hero: {
       greeting: '你好，我是',
@@ -157,6 +173,64 @@ export const content: Record<Lang, Content> = {
         },
       ],
     },
+    projects: {
+      heading: ['我的', '项目'],
+      items: [
+        {
+          name: 'Agent 轨迹分析平台',
+          meta: '腾讯 TEG · 2026 — 至今',
+          summary: '把每一条 Agent 轨迹，变成可读、可比、可归因的证据。',
+          points: [
+            '解析 system prompt、span 结构、token 用量与工具调用，逐步还原 Agent 的决策过程',
+            '以 LLM-as-a-Judge 批量挖掘典型失败模式，定位问题根因',
+            '失败样本回流为训练数据，已接入 CodeBuddy、WorkBuddy 等产品线',
+          ],
+          tags: ['Trajectory', 'Span Tree', 'LLM-as-a-Judge', 'Data Flywheel'],
+          visual: 'trajectory',
+        },
+        {
+          name: 'Vibe Coding 评测流水线',
+          meta: '腾讯 TEG · 2026.06 — 至今 · Contributor',
+          summary: '不改一行第三方代码，把闭源 Coding Agent 接进同一条评测流水线。',
+          points: [
+            '以沙箱内 Gateway Proxy 无侵入接入 Claude Code、Codex、CodeBuddy 等闭源 CLI，统一异构协议、一键切换',
+            '有状态沙箱生命周期管控，凭据与判分逻辑收敛在宿主侧，防止凭据泄露与 Reward Hacking',
+            '打通多 Harness 并发推理、沙箱判分到 RL 轨迹落盘的工程闭环',
+          ],
+          tags: ['Sandbox', 'Gateway Proxy', 'Socket.IO', 'Agent Eval', 'RL'],
+          visual: 'pipeline',
+        },
+        {
+          name: 'AHFinBench',
+          meta: '金融研究 Agent Benchmark',
+          summary: '把金融研究拆成可审计的证据链，看清 Agent 究竟错在哪一步。',
+          points: [
+            '基于 A 股与港股官方披露，构建分析师式研究任务',
+            '每条原子评分细则映射到具体的检索与推导步骤，实现从细则到证据步骤的归因',
+            '对比无工具、实时工具与精选证据三种模式，区分「找不到证据」与「有证据仍出错」',
+          ],
+          stats: [
+            { value: '200', label: '研究任务' },
+            { value: '3,235', label: '评分细则' },
+            { value: '1,297', label: '证据步骤' },
+          ],
+          tags: ['Finance', 'Agent Eval', 'Rubric', 'Attribution'],
+          visual: 'finbench',
+        },
+        {
+          name: 'SpaceAct',
+          meta: '3D 空间与时间推理 Benchmark · arXiv',
+          summary: '在闭环行动中，检验模型的三维空间与时间推理。',
+          points: [
+            '以闭环动作替代静态问答，模型需要边行动边推理',
+            '引入主动感知，由模型自主决定「看哪里」来获取信息',
+            '同时覆盖三维空间关系与时间推理两类能力',
+          ],
+          tags: ['3D', 'Embodied', 'Active Perception', 'Benchmark'],
+          visual: 'spaceact',
+        },
+      ],
+    },
     achievements: {
       heading: ['代表', '成果'],
       summary:
@@ -203,7 +277,7 @@ export const content: Record<Lang, Content> = {
   },
   en: {
     pageTitle: 'Song Yue — Portfolio',
-    nav: { about: 'ABOUT', timeline: 'TIMELINE', achievements: 'ACHIEVEMENTS', contact: 'GET IN TOUCH' },
+    nav: { about: 'ABOUT', timeline: 'TIMELINE', projects: 'PROJECTS', achievements: 'ACHIEVEMENTS', contact: 'GET IN TOUCH' },
     langToggle: '中文',
     hero: {
       greeting: "Hi, I'm",
@@ -300,6 +374,64 @@ export const content: Record<Lang, Content> = {
           title: 'PMO Intern',
           description: 'Keeping cross-regional game projects on cadence.',
           tags: ['Globalization', 'Program management'],
+        },
+      ],
+    },
+    projects: {
+      heading: ['Selected', 'projects'],
+      items: [
+        {
+          name: 'Agent Trajectory Analysis Platform',
+          meta: 'Tencent TEG · 2026 — Present',
+          summary: 'Turning every agent trajectory into evidence you can read, compare and attribute.',
+          points: [
+            'Parses system prompts, span structure, token usage and tool calls to replay each decision step by step',
+            'Mines recurring failure modes at scale with LLM-as-a-Judge to locate root causes',
+            'Feeds failure cases back into training data; adopted by CodeBuddy, WorkBuddy and more',
+          ],
+          tags: ['Trajectory', 'Span Tree', 'LLM-as-a-Judge', 'Data Flywheel'],
+          visual: 'trajectory',
+        },
+        {
+          name: 'Vibe Coding Eval Pipeline',
+          meta: 'Tencent TEG · Jun 2026 — Present · Contributor',
+          summary: 'Bringing closed-source coding agents into one eval pipeline — without touching a line of their code.',
+          points: [
+            'Non-invasive integration of closed-source CLIs such as Claude Code, Codex and CodeBuddy through an in-sandbox Gateway Proxy with a unified protocol',
+            'Stateful sandbox lifecycle with secrets and grading kept on the host, preventing credential leaks and reward hacking',
+            'End-to-end loop from concurrent multi-harness inference to sandboxed grading and RL trajectory export',
+          ],
+          tags: ['Sandbox', 'Gateway Proxy', 'Socket.IO', 'Agent Eval', 'RL'],
+          visual: 'pipeline',
+        },
+        {
+          name: 'AHFinBench',
+          meta: 'Benchmark for financial research agents',
+          summary: 'Breaking financial research into an auditable evidence chain to see exactly where agents fail.',
+          points: [
+            'Analyst-style research tasks grounded in official A-share and Hong Kong disclosures',
+            'Every atomic criterion is mapped to concrete retrieval and derivation steps for criterion-to-step attribution',
+            'Compares No Tools, Live Tools and Curated Evidence to separate missing evidence from reasoning failures',
+          ],
+          stats: [
+            { value: '200', label: 'Tasks' },
+            { value: '3,235', label: 'Criteria' },
+            { value: '1,297', label: 'Evidence steps' },
+          ],
+          tags: ['Finance', 'Agent Eval', 'Rubric', 'Attribution'],
+          visual: 'finbench',
+        },
+        {
+          name: 'SpaceAct',
+          meta: '3D spatial & temporal reasoning benchmark · arXiv',
+          summary: 'Testing 3D spatial and temporal reasoning through closed-loop action.',
+          points: [
+            'Replaces static Q&A with closed-loop action, so models must reason while they act',
+            'Adds active perception: the model decides where to look to gather information',
+            'Covers both 3D spatial relations and temporal reasoning',
+          ],
+          tags: ['3D', 'Embodied', 'Active Perception', 'Benchmark'],
+          visual: 'spaceact',
         },
       ],
     },
