@@ -4,6 +4,7 @@ import type { Lang } from '../data';
 import { usePrefersReducedMotion, useRevealOnce } from '../hooks';
 import ChaosToStructure from './ChaosToStructure';
 import WarehouseViz from './WarehouseViz';
+import WaterBackground from './WaterBackground';
 import { trajectoryContent, type TrajectoryContent } from './content';
 
 function initialLang(): Lang {
@@ -27,19 +28,10 @@ export default function TrajectoryPage() {
   return (
     <div className="min-h-screen text-white">
       <div className="fixed inset-0 pointer-events-none" aria-hidden="true">
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, #e6f5fd 0%, #c9e9f9 100%)' }} />
+        <WaterBackground reducedMotion={reducedMotion} />
       </div>
-      <div
-        className="fixed inset-0 pointer-events-none opacity-[0.06]"
-        style={{
-          backgroundImage:
-            'linear-gradient(white 1px, transparent 1px), linear-gradient(90deg, white 1px, transparent 1px)',
-          backgroundSize: '56px 56px',
-        }}
-        aria-hidden="true"
-      />
 
-      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-5 md:px-10 lg:px-14 bg-[#2f3a42]/70 backdrop-blur-md">
+      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-5 md:px-10 lg:px-14 bg-black/45 backdrop-blur-md">
         <a href="/" className="text-white/80 hover:text-white text-sm font-light transition-colors">
           {t.back}
         </a>
@@ -59,7 +51,7 @@ export default function TrajectoryPage() {
         <FeedbackLoop t={t} tight={tight} reducedMotion={reducedMotion} />
         <SftSynthesis t={t} tight={tight} reducedMotion={reducedMotion} />
         <Assistant t={t} tight={tight} reducedMotion={reducedMotion} />
-        <footer className="max-w-6xl mx-auto pt-4 pb-14 flex flex-col sm:flex-row justify-between gap-4 text-[#1f3d4f] text-xs font-normal">
+        <footer className="max-w-6xl mx-auto pt-4 pb-14 flex flex-col sm:flex-row justify-between gap-4 text-[#1d3c42]/80 text-xs font-normal">
           <span>{t.footer}</span>
           <a href="/" className="hover:text-white/70 transition-colors">
             {t.back}
@@ -90,7 +82,7 @@ function Section({
   return (
     <section
       ref={ref}
-      className={`max-w-6xl mx-auto my-8 sm:my-10 rounded-2xl bg-[#2f3a42]/70 backdrop-blur-sm px-6 py-14 sm:px-10 sm:py-20 lg:px-14 ${
+      className={`max-w-6xl mx-auto my-8 sm:my-10 rounded-2xl bg-black/45 backdrop-blur-sm px-6 py-14 sm:px-10 sm:py-20 lg:px-14 ${
         reducedMotion ? '' : 'transition-all duration-700 ease-[cubic-bezier(0.25,0.1,0.25,1)]'
       } ${shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
     >
@@ -105,7 +97,7 @@ function Section({
 
 function Hero({ t, tight }: { t: TrajectoryContent; tight: string }) {
   return (
-    <header className="max-w-6xl mx-auto mt-28 sm:mt-32 mb-8 sm:mb-10 rounded-2xl bg-[#2f3a42]/70 backdrop-blur-sm px-6 py-14 sm:px-10 sm:py-20 lg:px-14">
+    <header className="max-w-6xl mx-auto mt-28 sm:mt-32 mb-8 sm:mb-10 rounded-2xl bg-black/45 backdrop-blur-sm px-6 py-14 sm:px-10 sm:py-20 lg:px-14">
       <span className="inline-block bg-white text-black text-xs font-medium px-2.5 py-1 rounded-sm">{t.hero.badge}</span>
       <h1 className={`mt-6 text-white text-4xl sm:text-6xl md:text-7xl font-normal leading-[1.05] max-w-5xl ${tight}`}>
         {t.hero.title}
@@ -135,7 +127,7 @@ function Warehouse({ t, tight, reducedMotion }: SectionProps) {
       <p className="mt-12 text-white/60 text-xs font-medium tracking-[0.2em] uppercase">{w.sourcesTitle}</p>
       <ul className="mt-4 grid sm:grid-cols-3 gap-px bg-white/15 border border-white/15">
         {w.sources.map((source) => (
-          <li key={source.title} className="bg-[#3d4f5b] p-5 sm:p-6">
+          <li key={source.title} className="bg-[#2b3236] p-5 sm:p-6">
             <p className="text-white text-base font-semibold">{source.title}</p>
             <p className="mt-1 text-white/60 text-sm font-light">{source.text}</p>
           </li>
@@ -206,7 +198,7 @@ function Operators({ t, tight, reducedMotion }: SectionProps) {
 
       <div className="mt-10 grid sm:grid-cols-3 gap-px bg-white/15 border border-white/15">
         {op.output.map((item) => (
-          <div key={item.label} className="bg-[#3d4f5b] p-5 sm:p-6">
+          <div key={item.label} className="bg-[#2b3236] p-5 sm:p-6">
             <p className="text-white text-base font-semibold">{item.label}</p>
             <p className="mt-1 text-white/60 text-sm font-light">{item.text}</p>
           </div>
@@ -235,7 +227,7 @@ function Operators({ t, tight, reducedMotion }: SectionProps) {
                   </div>
                   <span className="w-8 text-right text-white text-sm font-mono">{group.n}</span>
                 </div>
-                <p className="mt-1 text-white/50 text-xs font-light">{group.desc}</p>
+                <p className="mt-1 text-[#1d3c42]/80 text-xs font-normal">{group.desc}</p>
               </div>
             </li>
           ))}
@@ -307,7 +299,7 @@ function SftSynthesis({ t, tight, reducedMotion }: SectionProps) {
 
       <ol className="mt-12 grid sm:grid-cols-2 lg:grid-cols-5 gap-px bg-white/15 border border-white/15">
         {sft.steps.map((step, i) => (
-          <li key={step.title} className="bg-[#3d4f5b] p-5 sm:p-6">
+          <li key={step.title} className="bg-[#2b3236] p-5 sm:p-6">
             <span className="text-white/50 text-xs font-mono">{String(i + 1).padStart(2, '0')}</span>
             <h3 className="mt-3 text-white text-base font-semibold">{step.title}</h3>
             <p className="mt-2 text-white/65 text-sm font-light leading-relaxed">{step.text}</p>
@@ -387,7 +379,7 @@ function Assistant({ t, tight, reducedMotion }: SectionProps) {
       </div>
       <ul className="mt-10 grid md:grid-cols-3 gap-px bg-white/15 border border-white/15">
         {a.rules.map((rule) => (
-          <li key={rule.title} className="bg-[#3d4f5b] p-6">
+          <li key={rule.title} className="bg-[#2b3236] p-6">
             <p className="text-white text-base font-semibold">{rule.title}</p>
             <p className="mt-2 text-white/65 text-sm font-light leading-relaxed">{rule.text}</p>
           </li>
