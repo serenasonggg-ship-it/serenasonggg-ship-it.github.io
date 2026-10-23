@@ -97,34 +97,55 @@ function Box({ x, y, w, h, lines, dashed }: { x: number; y: number; w: number; h
   );
 }
 
+const LIFECYCLE = ['warm-up', 'mount', 'run', 'guard', 'teardown'];
+
 function PipelineVisual() {
   const clis = ['Claude Code', 'Codex', 'CodeBuddy'];
   return (
     <g style={MONO} fontSize="9">
-      <rect x="15" y="28" width="210" height="182" fill="none" stroke="white" strokeOpacity="0.5" strokeDasharray="6 4" />
-      <text x="24" y="44" fill="white" opacity="0.7">SANDBOX</text>
-      <text x="24" y="200" fill="white" opacity="0.5">zero secrets inside</text>
+      {LIFECYCLE.map((state, i) => {
+        const x = 15 + i * 76;
+        const active = state === 'run';
+        return (
+          <g key={state}>
+            <rect x={x} y="10" width="64" height="20" fill={active ? 'white' : 'black'} fillOpacity={active ? 1 : 0.4} stroke="white" />
+            <text x={x + 32} y="23.5" textAnchor="middle" fill={active ? 'black' : 'white'}>
+              {state}
+            </text>
+            {i < LIFECYCLE.length - 1 && <path d={`M${x + 64} 20 H${x + 76}`} stroke="white" strokeOpacity="0.6" />}
+          </g>
+        );
+      })}
+
+      <rect x="15" y="46" width="232" height="188" fill="none" stroke="white" strokeOpacity="0.6" strokeDasharray="6 4" />
+      <text x="24" y="62" fill="white" opacity="0.8">SANDBOX</text>
+      <text x="238" y="62" textAnchor="end" fill="white" opacity="0.5">quota · cpu / mem / pids</text>
       {clis.map((cli, i) => {
-        const y = 60 + i * 45;
+        const y = 78 + i * 40;
         return (
           <g key={cli}>
             <path
-              d={`M110 ${y + 13} C125 ${y + 13} 125 118 140 118`}
+              d={`M106 ${y + 12} C122 ${y + 12} 122 130 138 130`}
               stroke="white"
               fill="none"
               strokeDasharray="4 4"
               className={FLOW}
             />
-            <Box x={30} y={y} w={80} h={26} lines={[cli]} />
+            <Box x={28} y={y} w={78} h={24} lines={[cli]} />
           </g>
         );
       })}
-      <Box x={140} y={95} w={70} h={46} lines={['Gateway', 'Proxy']} />
-      <path d="M210 118 H262" stroke="white" fill="none" strokeDasharray="4 4" className={FLOW} />
-      <text x="236" y="110" textAnchor="middle" fill="white" opacity="0.6">SSE</text>
-      <Box x={262} y={80} w={110} h={76} lines={['Host', 'Orchestrator', 'secrets · judge']} />
-      <path d="M317 156 V190" stroke="white" fill="none" strokeDasharray="4 4" className={FLOW} />
-      <Box x={262} y={190} w={110} h={26} lines={['RL trajectories']} dashed />
+      <Box x={138} y={108} w={96} h={44} lines={['Gateway Proxy', 'unified protocol']} />
+      <rect x="28" y="200" width="206" height="22" fill="none" stroke="white" strokeOpacity="0.5" />
+      <text x="131" y="214.5" textAnchor="middle" fill="white" opacity="0.75">
+        workspace · persisted across turns
+      </text>
+
+      <path d="M234 130 H278" stroke="white" fill="none" strokeDasharray="4 4" className={FLOW} />
+      <text x="256" y="122" textAnchor="middle" fill="white" opacity="0.6">proxy</text>
+      <Box x={278} y={92} w={107} h={76} lines={['Host', 'Orchestrator', 'secrets · judge']} />
+      <text x="331" y="190" textAnchor="middle" fill="white" opacity="0.6">zero secrets</text>
+      <text x="331" y="202" textAnchor="middle" fill="white" opacity="0.6">in sandbox</text>
     </g>
   );
 }
