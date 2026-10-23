@@ -289,7 +289,7 @@ export const content: Record<Lang, Content> = {
       greeting: "Hi, I'm",
       name: 'Song Yue',
       roles: ['LLM Evaluation Specialist', 'AI Agent Architect', 'AI Product Manager'],
-      tagline: '做难而正确的事。',
+      tagline: 'Do what is hard, and right.',
       location: 'Shenzhen / Beijing, China',
       scroll: 'scroll',
     },
