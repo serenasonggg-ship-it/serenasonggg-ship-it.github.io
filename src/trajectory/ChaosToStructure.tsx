@@ -1,6 +1,20 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useRevealOnce } from '../hooks';
 
+function useMinWidth(px: number) {
+  const [matches, setMatches] = useState(() =>
+    typeof window !== 'undefined' ? window.matchMedia(`(min-width: ${px}px)`).matches : true,
+  );
+  useEffect(() => {
+    const mq = window.matchMedia(`(min-width: ${px}px)`);
+    const apply = () => setMatches(mq.matches);
+    apply();
+    mq.addEventListener('change', apply);
+    return () => mq.removeEventListener('change', apply);
+  }, [px]);
+  return matches;
+}
+
 type Role = 0 | 1 | 2 | 3;
 
 // One synthetic session: SP, user, then assistant/tool rhythm with a parallel burst and a second user turn.
@@ -54,6 +68,7 @@ type Props = {
 export default function ChaosToStructure({ lanes, captions, toggle, reducedMotion }: Props) {
   const { ref, visible } = useRevealOnce<HTMLDivElement>(0.35);
   const [structured, setStructured] = useState(reducedMotion);
+  const wide = useMinWidth(640);
 
   useEffect(() => {
     if (!visible || reducedMotion) return;
@@ -75,8 +90,67 @@ export default function ChaosToStructure({ lanes, captions, toggle, reducedMotio
   const step = 78 / (SEQUENCE.length - 1);
   const ease = reducedMotion ? 'none' : 'all 1100ms cubic-bezier(0.65,0,0.35,1)';
 
+  const token = (role: Role) =>
+    `w-7 h-5 border rounded-[3px] text-[9px] font-mono flex items-center justify-center ${ROLE_STYLE[role]}`;
+
   return (
     <div ref={ref}>
+      {!wide && (
+        <div className="border border-white/20 bg-white/[0.02] overflow-hidden">
+          {structured ? (
+            <ul className="divide-y divide-white/15">
+              {lanes.map((lane, role) => (
+                <li key={lane} className="px-3 py-3">
+                  <p className="text-white/60 text-[11px] font-medium">{lane}</p>
+                  <div className="mt-2 flex flex-wrap gap-1.5">
+                    {SEQUENCE.map((item, i) =>
+                      item === role ? (
+                        <span key={i} className={`${token(item)} font-medium`}>
+                          {ROLE_LABEL[item]}
+                        </span>
+                      ) : null,
+                    )}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <div className="relative h-[240px]">
+              {scatter.noise.map((p, i) => (
+                <span
+                  key={`mn${i}`}
+                  className="absolute font-mono text-[10px] text-white/55 whitespace-nowrap"
+                  style={{
+                    left: `${8 + (p.x / 100) * 72}%`,
+                    top: `${p.y}%`,
+                    transform: 'translate(-50%, -50%)',
+                  }}
+                >
+                  {NOISE[i]}
+                </span>
+              ))}
+              {SEQUENCE.map((role, i) => {
+                const chaos = scatter.tokens[i];
+                return (
+                  <span
+                    key={`mt${i}`}
+                    className={`${token(role)} absolute font-medium`}
+                    style={{
+                      left: `${chaos.x}%`,
+                      top: `${chaos.y}%`,
+                      transform: `translate(-50%, -50%) rotate(${chaos.r}deg)`,
+                    }}
+                  >
+                    {ROLE_LABEL[role]}
+                  </span>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      )}
+
+      {wide && (
       <div className="overflow-x-auto border border-white/20 bg-white/[0.02]">
         <div className="relative h-[340px] sm:h-[380px] min-w-[680px]">
           {lanes.map((lane, i) => (
@@ -150,6 +224,7 @@ export default function ChaosToStructure({ lanes, captions, toggle, reducedMotio
           })}
         </div>
       </div>
+      )}
 
       <div className="mt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <p className="text-white/70 text-sm font-light">{structured ? captions.structured : captions.chaos}</p>

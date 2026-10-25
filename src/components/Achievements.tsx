@@ -9,7 +9,7 @@ export default function Achievements({ t, lang, email }: Props) {
   return (
     <section
       id="achievements"
-      className="min-h-screen w-full flex flex-col lg:flex-row px-6 pt-28 pb-20 md:px-10 lg:px-14 gap-12"
+      className="min-h-screen w-full flex flex-col lg:flex-row px-6 pt-24 pb-16 md:px-10 md:pt-28 md:pb-20 lg:px-14 gap-10 md:gap-12"
     >
       <div className="lg:w-1/3 flex flex-col justify-between">
         <h2 className={`text-white text-3xl sm:text-4xl md:text-5xl font-normal leading-[1.1] ${tight}`}>

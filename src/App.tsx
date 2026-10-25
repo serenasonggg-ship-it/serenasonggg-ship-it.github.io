@@ -43,7 +43,7 @@ export default function App() {
         <OtherExperience t={t} />
         <Projects t={t} lang={lang} reducedMotion={reducedMotion} />
         <Achievements t={t} lang={lang} email={email} />
-        <footer className="px-6 md:px-10 lg:px-14 py-8 flex justify-between text-white/40 text-xs font-light">
+        <footer className="px-6 md:px-10 lg:px-14 py-8 flex flex-col gap-2 sm:flex-row sm:justify-between text-white/40 text-xs font-light">
           <span>
             © {new Date().getFullYear()} {t.hero.name}
           </span>

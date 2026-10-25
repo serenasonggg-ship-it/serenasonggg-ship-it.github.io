@@ -33,7 +33,7 @@ export default function Navbar({ t, email, onToggleLang }: Props) {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-5 md:px-10 lg:px-14">
+      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 md:py-5 md:px-10 lg:px-14 max-md:bg-black/55 max-md:backdrop-blur-md">
         <a href="#about" className="flex items-center gap-2">
           <Atom className="w-6 h-6 text-white" strokeWidth={1.5} />
           <span className="text-white text-base font-medium tracking-tight">{t.hero.name}</span>

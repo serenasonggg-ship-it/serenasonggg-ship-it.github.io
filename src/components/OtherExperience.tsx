@@ -2,7 +2,7 @@ import type { Content } from '../data';
 
 export default function OtherExperience({ t }: { t: Content }) {
   return (
-    <section className="w-full px-6 pb-24 md:px-10 lg:px-14">
+    <section className="w-full px-6 pb-16 md:px-10 md:pb-24 lg:px-14">
       <div className="max-w-4xl mx-auto">
         <h2 className="text-white text-xs sm:text-sm font-medium uppercase tracking-[0.3em]">{t.other.heading}</h2>
 

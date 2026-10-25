@@ -44,7 +44,7 @@ export default function TrajectoryPage() {
         </button>
       </nav>
 
-      <main className="relative z-10 px-6 md:px-10 lg:px-14">
+      <main className="relative z-10 px-4 sm:px-6 md:px-10 lg:px-14">
         <Hero t={t} tight={tight} />
         <Warehouse t={t} tight={tight} reducedMotion={reducedMotion} />
         <Operators t={t} tight={tight} reducedMotion={reducedMotion} />
@@ -82,7 +82,7 @@ function Section({
   return (
     <section
       ref={ref}
-      className={`max-w-6xl mx-auto my-8 sm:my-10 rounded-2xl bg-black/45 backdrop-blur-sm px-6 py-14 sm:px-10 sm:py-20 lg:px-14 ${
+      className={`max-w-6xl mx-auto my-6 sm:my-10 rounded-2xl bg-black/45 backdrop-blur-sm px-4 py-10 sm:px-10 sm:py-20 lg:px-14 ${
         reducedMotion ? '' : 'transition-all duration-700 ease-[cubic-bezier(0.25,0.1,0.25,1)]'
       } ${shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
     >
@@ -97,19 +97,19 @@ function Section({
 
 function Hero({ t, tight }: { t: TrajectoryContent; tight: string }) {
   return (
-    <header className="max-w-6xl mx-auto mt-28 sm:mt-32 mb-8 sm:mb-10 rounded-2xl bg-black/45 backdrop-blur-sm px-6 py-14 sm:px-10 sm:py-20 lg:px-14">
+    <header className="max-w-6xl mx-auto mt-24 sm:mt-32 mb-6 sm:mb-10 rounded-2xl bg-black/45 backdrop-blur-sm px-4 py-10 sm:px-10 sm:py-20 lg:px-14">
       <span className="inline-block bg-white text-black text-xs font-medium px-2.5 py-1 rounded-sm">{t.hero.badge}</span>
-      <h1 className={`mt-6 text-white text-4xl sm:text-6xl md:text-7xl font-normal leading-[1.05] max-w-5xl ${tight}`}>
+      <h1 className={`mt-6 text-white text-3xl sm:text-5xl md:text-7xl font-normal leading-[1.15] sm:leading-[1.05] max-w-5xl ${tight}`}>
         {t.hero.title}
       </h1>
       <p className="mt-8 text-white text-lg sm:text-xl font-light leading-relaxed max-w-3xl">{t.hero.summary}</p>
       <p className="mt-4 pl-4 border-l-2 border-white text-white/80 text-sm sm:text-base font-light max-w-3xl">
         {t.hero.role}
       </p>
-      <dl className="mt-14 grid grid-cols-2 md:grid-cols-4 border-y border-white/20">
+      <dl className="mt-10 sm:mt-14 grid grid-cols-2 md:grid-cols-4 border-y border-white/20">
         {t.hero.stats.map((stat) => (
-          <div key={stat.label} className="py-6 pr-4">
-            <dd className="text-white text-4xl sm:text-5xl font-normal tracking-[-0.04em]">{stat.value}</dd>
+          <div key={stat.label} className="py-5 pr-3 sm:py-6 sm:pr-4">
+            <dd className="text-white text-3xl sm:text-5xl font-normal tracking-[-0.04em]">{stat.value}</dd>
             <dt className="mt-2 text-white/60 text-xs sm:text-sm font-light">{stat.label}</dt>
           </div>
         ))}
@@ -209,7 +209,7 @@ function Operators({ t, tight, reducedMotion }: SectionProps) {
         <p className="text-white/60 text-xs font-medium tracking-[0.2em] uppercase">{op.groupsTitle}</p>
         <ul className="mt-6 space-y-3">
           {op.groups.map((group, i) => (
-            <li key={group.name} className="grid grid-cols-[7.5rem_1fr] sm:grid-cols-[12rem_1fr] gap-4 items-center">
+            <li key={group.name} className="grid grid-cols-1 gap-1.5 sm:grid-cols-[12rem_1fr] sm:gap-4 sm:items-center">
               <span className="text-white text-sm font-normal">{group.name}</span>
               <div className="group relative">
                 <div className="flex items-center gap-3">
@@ -227,7 +227,7 @@ function Operators({ t, tight, reducedMotion }: SectionProps) {
                   </div>
                   <span className="w-8 text-right text-white text-sm font-mono">{group.n}</span>
                 </div>
-                <p className="mt-1 text-[#1d3c42]/80 text-xs font-normal">{group.desc}</p>
+                <p className="mt-1 text-white/55 text-xs font-normal">{group.desc}</p>
               </div>
             </li>
           ))}

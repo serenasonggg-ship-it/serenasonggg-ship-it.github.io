@@ -9,7 +9,7 @@ export default function Projects({ t, lang, reducedMotion }: Props) {
   const tight = lang === 'en' ? 'tracking-[-0.06em]' : 'tracking-tight';
 
   return (
-    <section id="projects" className="w-full px-6 pt-28 pb-24 md:px-10 lg:px-14">
+    <section id="projects" className="w-full px-6 pt-24 pb-16 md:px-10 md:pt-28 md:pb-24 lg:px-14">
       <div className="max-w-6xl mx-auto">
         <h2 className={`text-white text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extralight leading-[1.05] ${tight}`}>
           {t.projects.heading[0]}
@@ -17,7 +17,7 @@ export default function Projects({ t, lang, reducedMotion }: Props) {
           {t.projects.heading[1]}
         </h2>
 
-        <div className="mt-20 space-y-24 lg:space-y-32">
+        <div className="mt-14 space-y-16 md:mt-20 lg:space-y-32">
           {t.projects.items.map((project, i) => (
             <ProjectRow
               key={project.name}
