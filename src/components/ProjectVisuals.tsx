@@ -3,12 +3,11 @@ import type { ProjectVisual } from '../data';
 const MONO = { fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace' };
 const FLOW = 'animate-dash motion-reduce:animate-none';
 
-export default function ProjectVisualView({ kind, active }: { kind: ProjectVisual; active: boolean }) {
+export default function ProjectVisualView({ kind }: { kind: ProjectVisual }) {
   return (
     <svg viewBox="0 0 400 250" className="w-full h-full" role="img" aria-hidden="true">
       {kind === 'trajectory' && <TrajectoryVisual />}
       {kind === 'pipeline' && <PipelineVisual />}
-      {kind === 'finbench' && <FinBenchVisual active={active} />}
       {kind === 'spaceact' && <SpaceActVisual />}
     </svg>
   );
@@ -146,61 +145,6 @@ function PipelineVisual() {
       <Box x={278} y={92} w={107} h={76} lines={['Host', 'Orchestrator', 'secrets · judge']} />
       <text x="331" y="190" textAnchor="middle" fill="white" opacity="0.6">zero secrets</text>
       <text x="331" y="202" textAnchor="middle" fill="white" opacity="0.6">in sandbox</text>
-    </g>
-  );
-}
-
-const REGIMES = [
-  { label: 'No Tools', value: 14.5 },
-  { label: 'Live Tools', value: 58.1 },
-  { label: 'Curated', value: 92.2 },
-];
-
-function FinBenchVisual({ active }: { active: boolean }) {
-  const base = 205;
-  const max = 150;
-  return (
-    <g style={MONO} fontSize="9" fill="white">
-      <text x="30" y="24" opacity="0.6">CRITERION COVERAGE · hardest 100 tasks</text>
-      {[25, 50, 75, 100].map((tick) => {
-        const y = base - (tick / 100) * max;
-        return (
-          <g key={tick}>
-            <path d={`M50 ${y} H370`} stroke="white" strokeOpacity="0.15" strokeDasharray="2 4" />
-            <text x="44" y={y + 3} textAnchor="end" opacity="0.5">
-              {tick}
-            </text>
-          </g>
-        );
-      })}
-      <path d={`M50 ${base} H370`} stroke="white" strokeOpacity="0.6" />
-      {REGIMES.map((regime, i) => {
-        const x = 80 + i * 100;
-        const h = (regime.value / 100) * max;
-        return (
-          <g key={regime.label}>
-            <rect
-              x={x}
-              y={base - h}
-              width="60"
-              height={h}
-              opacity={0.3 + i * 0.3}
-              style={{
-                transformBox: 'fill-box',
-                transformOrigin: 'bottom',
-                transform: active ? 'scaleY(1)' : 'scaleY(0)',
-                transition: `transform 1s cubic-bezier(0.25,0.1,0.25,1) ${i * 150}ms`,
-              }}
-            />
-            <text x={x + 30} y={base - h - 8} textAnchor="middle" fontSize="12">
-              {regime.value}%
-            </text>
-            <text x={x + 30} y={base + 18} textAnchor="middle" opacity="0.8">
-              {regime.label}
-            </text>
-          </g>
-        );
-      })}
     </g>
   );
 }

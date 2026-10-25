@@ -60,7 +60,7 @@ function ProjectRow({
           flipped ? 'lg:order-2' : ''
         }`}
       >
-        <ProjectVisualView kind={project.visual} active={shown} />
+        <ProjectVisualView kind={project.visual} />
       </div>
 
       <div>

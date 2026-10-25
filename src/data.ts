@@ -17,7 +17,7 @@ export type OtherExperience = {
   tags?: string[];
 };
 
-export type ProjectVisual = 'trajectory' | 'pipeline' | 'finbench' | 'spaceact';
+export type ProjectVisual = 'trajectory' | 'pipeline' | 'spaceact';
 
 export type Project = {
   name: string;
@@ -213,23 +213,6 @@ export const content: Record<Lang, Content> = {
           visual: 'pipeline',
         },
         {
-          name: 'AHFinBench',
-          meta: '金融研究 Agent Benchmark',
-          summary: '把金融研究拆成可审计的证据链，看清 Agent 究竟错在哪一步。',
-          points: [
-            '基于 A 股与港股官方披露，构建分析师式研究任务',
-            '每条原子评分细则映射到具体的检索与推导步骤，实现从细则到证据步骤的归因',
-            '对比无工具、实时工具与精选证据三种模式，区分「找不到证据」与「有证据仍出错」',
-          ],
-          stats: [
-            { value: '200', label: '研究任务' },
-            { value: '3,235', label: '评分细则' },
-            { value: '1,297', label: '证据步骤' },
-          ],
-          tags: ['Finance', 'Agent Eval', 'Rubric', 'Attribution'],
-          visual: 'finbench',
-        },
-        {
           name: 'SpaceAct',
           meta: '3D 空间与时间推理 Benchmark · arXiv',
           summary: '在闭环行动中，检验模型的三维空间与时间推理。',
@@ -423,23 +406,6 @@ export const content: Record<Lang, Content> = {
           ],
           tags: ['Sandbox', 'Lifecycle', 'Zero-Secret', 'Gateway Proxy', 'Agent Eval'],
           visual: 'pipeline',
-        },
-        {
-          name: 'AHFinBench',
-          meta: 'Benchmark for financial research agents',
-          summary: 'Breaking financial research into an auditable evidence chain to see exactly where agents fail.',
-          points: [
-            'Analyst-style research tasks grounded in official A-share and Hong Kong disclosures',
-            'Every atomic criterion is mapped to concrete retrieval and derivation steps for criterion-to-step attribution',
-            'Compares No Tools, Live Tools and Curated Evidence to separate missing evidence from reasoning failures',
-          ],
-          stats: [
-            { value: '200', label: 'Tasks' },
-            { value: '3,235', label: 'Criteria' },
-            { value: '1,297', label: 'Evidence steps' },
-          ],
-          tags: ['Finance', 'Agent Eval', 'Rubric', 'Attribution'],
-          visual: 'finbench',
         },
         {
           name: 'SpaceAct',
