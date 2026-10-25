@@ -72,7 +72,7 @@ export type Content = {
   contact: {
     heading: string;
     wechat: { label: string; hint: string; copied: string };
-    email: { label: string; hint: string };
+    email: { label: string; hint: string; copied: string };
   };
 };
 
@@ -272,7 +272,7 @@ export const content: Record<Lang, Content> = {
     contact: {
       heading: '联系我',
       wechat: { label: '微信', hint: '点击复制微信号并打开微信', copied: '微信号已复制，去微信粘贴添加' },
-      email: { label: '邮件', hint: '点击发送邮件' },
+      email: { label: '邮件', hint: '点击复制邮箱并打开邮件应用', copied: '邮箱已复制，并正在拉起邮件应用' },
     },
   },
   en: {
@@ -467,7 +467,7 @@ export const content: Record<Lang, Content> = {
     contact: {
       heading: 'GET IN TOUCH',
       wechat: { label: 'WECHAT', hint: 'Tap to copy ID and open WeChat', copied: 'WeChat ID copied — paste in WeChat' },
-      email: { label: 'EMAIL', hint: 'Tap to send an email' },
+      email: { label: 'EMAIL', hint: 'Tap to copy address and open mail app', copied: 'Email copied — opening mail app' },
     },
   },
 };
