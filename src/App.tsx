@@ -50,23 +50,7 @@ export default function App() {
 }
 
 function copyText(value: string) {
-  if (navigator.clipboard?.writeText) {
-    navigator.clipboard.writeText(value).catch(() => {});
-    return;
-  }
-  const input = document.createElement('textarea');
-  input.value = value;
-  input.setAttribute('readonly', '');
-  input.style.position = 'fixed';
-  input.style.opacity = '0';
-  document.body.appendChild(input);
-  input.select();
-  try {
-    document.execCommand('copy');
-  } catch {
-    // ignore
-  }
-  document.body.removeChild(input);
+  navigator.clipboard?.writeText(value).catch(() => {});
 }
 
 function Contact({ t }: { t: Content }) {
@@ -84,6 +68,7 @@ function Contact({ t }: { t: Content }) {
     copyText(email);
     setCopiedEmail(true);
     window.setTimeout(() => setCopiedEmail(false), 3200);
+    window.location.href = `mailto:${email}`;
   };
 
   return (
@@ -113,8 +98,8 @@ function Contact({ t }: { t: Content }) {
             </span>
           </button>
 
-          <a
-            href={`mailto:${email}`}
+          <button
+            type="button"
             onClick={handleEmail}
             className="text-left bg-black/50 p-6 sm:p-8 flex flex-col gap-3 hover:bg-black/30 transition-colors cursor-pointer"
           >
@@ -132,7 +117,7 @@ function Contact({ t }: { t: Content }) {
             <span className="text-white/60 text-xs sm:text-sm font-light">
               {copiedEmail ? t.contact.email.copied : t.contact.email.hint}
             </span>
-          </a>
+          </button>
         </div>
 
         <p className="mt-10 text-white/40 text-xs font-light">
