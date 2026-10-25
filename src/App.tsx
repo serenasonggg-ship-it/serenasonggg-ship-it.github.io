@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { content, email, type Lang } from './data';
+import { ArrowUpRight, Check } from 'lucide-react';
+import { content, email, wechat, type Content, type Lang } from './data';
 import { usePrefersReducedMotion } from './hooks';
 import ScrollBackground from './components/ScrollBackground';
 import Navbar from './components/Navbar';
@@ -33,7 +34,6 @@ export default function App() {
 
       <Navbar
         t={t}
-        email={email}
         onToggleLang={() => setLang((current) => (current === 'zh' ? 'en' : 'zh'))}
       />
 
@@ -42,16 +42,69 @@ export default function App() {
         <Timeline t={t} lang={lang} reducedMotion={reducedMotion} />
         <OtherExperience t={t} />
         <Projects t={t} lang={lang} reducedMotion={reducedMotion} />
-        <Achievements t={t} lang={lang} email={email} />
-        <footer className="px-6 md:px-10 lg:px-14 py-8 flex flex-col gap-2 sm:flex-row sm:justify-between text-white/40 text-xs font-light">
-          <span>
-            © {new Date().getFullYear()} {t.hero.name}
-          </span>
-          <a href={`mailto:${email}`} className="hover:text-white/70 transition-colors">
-            {email}
-          </a>
-        </footer>
+        <Achievements t={t} lang={lang} />
+        <Contact t={t} />
       </main>
     </>
+  );
+}
+
+function Contact({ t }: { t: Content }) {
+  const [copied, setCopied] = useState(false);
+
+  const handleWeChat = () => {
+    navigator.clipboard?.writeText(wechat).catch(() => {});
+    setCopied(true);
+    window.setTimeout(() => setCopied(false), 3200);
+    window.location.href = 'weixin://';
+  };
+
+  return (
+    <footer id="contact" className="w-full px-6 pt-12 pb-10 md:px-10 lg:px-14">
+      <div className="max-w-4xl mx-auto">
+        <h2 className="text-white text-xs sm:text-sm font-medium uppercase tracking-[0.3em]">{t.contact.heading}</h2>
+
+        <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-px bg-white/25 border border-white/25">
+          <button
+            type="button"
+            onClick={handleWeChat}
+            className="text-left bg-black/50 p-6 sm:p-8 flex flex-col gap-3 hover:bg-black/30 transition-colors cursor-pointer"
+          >
+            <div className="flex items-center justify-between">
+              <span className="text-white/60 text-xs font-medium uppercase tracking-[0.2em]">
+                {t.contact.wechat.label}
+              </span>
+              {copied ? (
+                <Check className="w-4 h-4 text-white" strokeWidth={1.5} />
+              ) : (
+                <ArrowUpRight className="w-4 h-4 text-white/60" strokeWidth={1.5} />
+              )}
+            </div>
+            <span className="text-white text-xl sm:text-2xl font-medium tracking-tight font-mono">{wechat}</span>
+            <span className="text-white/60 text-xs sm:text-sm font-light">
+              {copied ? t.contact.wechat.copied : t.contact.wechat.hint}
+            </span>
+          </button>
+
+          <a
+            href={`mailto:${email}`}
+            className="bg-black/50 p-6 sm:p-8 flex flex-col gap-3 hover:bg-black/30 transition-colors"
+          >
+            <div className="flex items-center justify-between">
+              <span className="text-white/60 text-xs font-medium uppercase tracking-[0.2em]">
+                {t.contact.email.label}
+              </span>
+              <ArrowUpRight className="w-4 h-4 text-white/60" strokeWidth={1.5} />
+            </div>
+            <span className="text-white text-xl sm:text-2xl font-medium tracking-tight break-all">{email}</span>
+            <span className="text-white/60 text-xs sm:text-sm font-light">{t.contact.email.hint}</span>
+          </a>
+        </div>
+
+        <p className="mt-10 text-white/40 text-xs font-light">
+          © {new Date().getFullYear()} {t.hero.name}
+        </p>
+      </div>
+    </footer>
   );
 }

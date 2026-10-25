@@ -6,11 +6,10 @@ const EASE = 'ease-[cubic-bezier(0.25,0.1,0.25,1)]';
 
 type Props = {
   t: Content;
-  email: string;
   onToggleLang: () => void;
 };
 
-export default function Navbar({ t, email, onToggleLang }: Props) {
+export default function Navbar({ t, onToggleLang }: Props) {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -25,7 +24,7 @@ export default function Navbar({ t, email, onToggleLang }: Props) {
     { label: t.nav.timeline, href: '#timeline' },
     { label: t.nav.projects, href: '#projects' },
     { label: t.nav.achievements, href: '#achievements' },
-    { label: t.nav.contact, href: `mailto:${email}` },
+    { label: t.nav.contact, href: '#contact' },
   ];
 
   const langButton =

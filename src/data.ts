@@ -69,9 +69,15 @@ export type Content = {
     cta: string;
     items: Achievement[];
   };
+  contact: {
+    heading: string;
+    wechat: { label: string; hint: string; copied: string };
+    email: { label: string; hint: string };
+  };
 };
 
 export const email = 'xxsongtz@163.com';
+export const wechat = '17824837076';
 
 export const content: Record<Lang, Content> = {
   zh: {
@@ -280,6 +286,11 @@ export const content: Record<Lang, Content> = {
         },
       ],
     },
+    contact: {
+      heading: '联系我',
+      wechat: { label: '微信', hint: '点击复制微信号并打开微信', copied: '微信号已复制，去微信粘贴添加' },
+      email: { label: '邮件', hint: '点击发送邮件' },
+    },
   },
   en: {
     pageTitle: 'Song Yue — Portfolio',
@@ -486,6 +497,11 @@ export const content: Record<Lang, Content> = {
           description: 'Under review · arXiv preprint. A benchmark for 3D spatial and temporal reasoning through closed-loop action and active perception.',
         },
       ],
+    },
+    contact: {
+      heading: 'GET IN TOUCH',
+      wechat: { label: 'WECHAT', hint: 'Tap to copy ID and open WeChat', copied: 'WeChat ID copied — paste in WeChat' },
+      email: { label: 'EMAIL', hint: 'Tap to send an email' },
     },
   },
 };
