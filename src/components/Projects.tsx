@@ -108,6 +108,9 @@ function ProjectRow({
         {project.href && (
           <a
             href={project.href}
+            {...(project.href.startsWith('http')
+              ? { target: '_blank', rel: 'noopener noreferrer' }
+              : {})}
             className="mt-8 inline-flex items-center gap-2 border border-white text-white text-sm font-light px-5 py-2.5 rounded-sm hover:bg-white hover:text-black transition-colors"
           >
             {more}

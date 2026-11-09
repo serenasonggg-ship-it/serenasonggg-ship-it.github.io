@@ -214,6 +214,7 @@ export const content: Record<Lang, Content> = {
         },
         {
           name: 'SpaceAct',
+          href: 'https://zk-yuan.github.io/spaceact/',
           meta: '3D 空间与时间推理 Benchmark · arXiv',
           summary: '在闭环行动中，检验模型的三维空间与时间推理。',
           points: [
@@ -409,6 +410,7 @@ export const content: Record<Lang, Content> = {
         },
         {
           name: 'SpaceAct',
+          href: 'https://zk-yuan.github.io/spaceact/',
           meta: '3D spatial & temporal reasoning benchmark · arXiv',
           summary: 'Testing 3D spatial and temporal reasoning through closed-loop action.',
           points: [
