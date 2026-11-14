@@ -131,9 +131,14 @@ export const content: Record<Lang, Content> = {
               detail: '审计大模型在科研知识中介中的开放获取偏向；揭示 AI 编程工具与开源参与门槛之间的悖论。',
             },
             {
+              label: '预印本',
+              headline: '2 篇 arXiv，共同第一作者',
+              detail: '检验仇恨言论分类器的测量非不变性；揭示证据不足时 LLM 标注的记忆捷径问题。',
+            },
+            {
               label: '在投',
-              headline: 'CHI、New Media & Society 各 1 篇',
-              detail: '研究 AI 评论如何影响创作者的持续产出；审计文生图模型在性暴力叙事中对受害者形象的偏见。',
+              headline: 'ICLR、CHI、CVPR、New Media & Society',
+              detail: '覆盖信念—行动一致性、AI 评论与创作者产出、3D 空间时间推理，以及文生图偏见审计。',
             },
           ],
         },
@@ -215,7 +220,7 @@ export const content: Record<Lang, Content> = {
         {
           name: 'SpaceAct',
           href: 'https://zk-yuan.github.io/spaceact/',
-          meta: '3D 空间与时间推理 Benchmark · arXiv',
+          meta: '3D 空间与时间推理 Benchmark · CVPR 在投',
           summary: '在闭环行动中，检验模型的三维空间与时间推理。',
           points: [
             '以闭环动作替代静态问答，模型需要边行动边推理',
@@ -245,6 +250,20 @@ export const content: Record<Lang, Content> = {
           description: '已发表 · CCF-A。发现 AI 编程工具提升了开发者产出，却没有降低新人参与开源的门槛。',
         },
         {
+          metric: 'arXiv',
+          title:
+            'Same Sentence, Different Construct: Identity-Swapped Rationales Reveal Measurement Non-Invariance in LLM Hate Speech Classifiers',
+          description: '预印本 · 共同第一作者。用身份对调的理由文本检验 LLM 仇恨言论分类器是否对不同群体测量同一构念。',
+          link: 'https://arxiv.org/abs/2611.02491',
+        },
+        {
+          metric: 'arXiv',
+          title:
+            'When the Text Is Silent: Memory Shortcuts and the Validity of LLM Annotation under Evidence Insufficiency',
+          description: '预印本 · 共同第一作者。揭示证据不足时 LLM 标注会依赖记忆捷径，从而威胁标注效度。',
+          link: 'https://arxiv.org/abs/2611.02273',
+        },
+        {
           metric: 'ICLR',
           title:
             'Belief Elicitation Is an Intervention: Measuring and Manufacturing Belief-Action Consistency in Language Models',
@@ -260,13 +279,14 @@ export const content: Record<Lang, Content> = {
           metric: 'NM&S',
           title:
             'Re-symbolizing Victim Trauma in Sexual Violence: A Prompt Engineering Approach to Understanding Bias in AI-powered Text-to-Image Technologies?',
-          description: '在投 · New Media & Society。以提示工程方法审计文生图模型在性暴力叙事中对受害者形象的偏见。',
+          description: '在投 · New Media & Society · SSCI-Q1。以提示工程方法审计文生图模型在性暴力叙事中对受害者形象的偏见。',
         },
         {
-          metric: 'arXiv',
+          metric: 'CVPR',
           title:
             'SpaceAct: Benchmarking 3D Spatial and Temporal Reasoning via Closed-Loop Action and Active Perception',
-          description: '在投 · arXiv 预印本。构建闭环动作与主动感知下的 3D 空间与时间推理 Benchmark。',
+          description: '在投 · CCF-A。构建闭环动作与主动感知下的 3D 空间与时间推理 Benchmark。',
+          link: 'https://zk-yuan.github.io/spaceact/',
         },
       ],
     },
@@ -327,9 +347,14 @@ export const content: Record<Lang, Content> = {
               detail: 'Auditing open-access bias in AI-mediated science; uncovering the productivity-entry paradox of AI coding tools in open source.',
             },
             {
+              label: 'Preprint',
+              headline: '2 arXiv papers, co-first author',
+              detail: 'Measurement non-invariance in LLM hate-speech classifiers; memory shortcuts that threaten annotation validity when evidence is thin.',
+            },
+            {
               label: 'In review',
-              headline: 'One each at CHI and New Media & Society',
-              detail: 'How AI comments shape creators’ sustained output; how text-to-image models portray victims in sexual-violence narratives.',
+              headline: 'ICLR, CHI, CVPR, and New Media & Society',
+              detail: 'Belief-action consistency, AI comments and creator output, 3D spatial-temporal reasoning, and text-to-image bias audits.',
             },
           ],
         },
@@ -411,7 +436,7 @@ export const content: Record<Lang, Content> = {
         {
           name: 'SpaceAct',
           href: 'https://zk-yuan.github.io/spaceact/',
-          meta: '3D spatial & temporal reasoning benchmark · arXiv',
+          meta: '3D spatial & temporal reasoning benchmark · CVPR under review',
           summary: 'Testing 3D spatial and temporal reasoning through closed-loop action.',
           points: [
             'Replaces static Q&A with closed-loop action, so models must reason while they act',
@@ -441,6 +466,20 @@ export const content: Record<Lang, Content> = {
           description: 'Published · CCF-A. Shows that AI coding tools raise developer output without lowering the barrier for newcomers to open source.',
         },
         {
+          metric: 'arXiv',
+          title:
+            'Same Sentence, Different Construct: Identity-Swapped Rationales Reveal Measurement Non-Invariance in LLM Hate Speech Classifiers',
+          description: 'Preprint · co-first author. Tests whether LLM hate-speech classifiers measure the same construct across identity groups via identity-swapped rationales.',
+          link: 'https://arxiv.org/abs/2611.02491',
+        },
+        {
+          metric: 'arXiv',
+          title:
+            'When the Text Is Silent: Memory Shortcuts and the Validity of LLM Annotation under Evidence Insufficiency',
+          description: 'Preprint · co-first author. Shows that under thin evidence, LLM annotators lean on memory shortcuts that threaten annotation validity.',
+          link: 'https://arxiv.org/abs/2611.02273',
+        },
+        {
           metric: 'ICLR',
           title:
             'Belief Elicitation Is an Intervention: Measuring and Manufacturing Belief-Action Consistency in Language Models',
@@ -456,13 +495,14 @@ export const content: Record<Lang, Content> = {
           metric: 'NM&S',
           title:
             'Re-symbolizing Victim Trauma in Sexual Violence: A Prompt Engineering Approach to Understanding Bias in AI-powered Text-to-Image Technologies?',
-          description: 'Under review · New Media & Society. Uses prompt engineering to audit how text-to-image models portray victims in sexual-violence narratives.',
+          description: 'Under review · New Media & Society · SSCI-Q1. Uses prompt engineering to audit how text-to-image models portray victims in sexual-violence narratives.',
         },
         {
-          metric: 'arXiv',
+          metric: 'CVPR',
           title:
             'SpaceAct: Benchmarking 3D Spatial and Temporal Reasoning via Closed-Loop Action and Active Perception',
-          description: 'Under review · arXiv preprint. A benchmark for 3D spatial and temporal reasoning through closed-loop action and active perception.',
+          description: 'Under review · CCF-A. A benchmark for 3D spatial and temporal reasoning through closed-loop action and active perception.',
+          link: 'https://zk-yuan.github.io/spaceact/',
         },
       ],
     },
